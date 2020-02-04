@@ -26,7 +26,6 @@ b libftpvita
 b henkaku
 b taihen
 b libk
-b libdebugnet
 b onigmo
 b sdl
 b sdl_image
@@ -51,7 +50,6 @@ b libxml2
 b speexdsp
 b pixman
 b TinyGL
-b kuio
 b taipool
 b mpg123
 b soloud
