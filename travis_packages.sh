@@ -52,6 +52,7 @@ b pixman
 b TinyGL
 b taipool
 b mpg123
+b libmpeg2
 b soloud
 b quirc
 b Box2D
@@ -68,3 +69,4 @@ b libbaremetal
 b lame
 b ffmpeg
 b libvita2d_sys
+b minizip
