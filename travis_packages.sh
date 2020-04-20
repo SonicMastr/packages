@@ -67,3 +67,4 @@ b libmathneon
 b libbaremetal
 b lame
 b ffmpeg
+b libvita2d_sys
