@@ -3,7 +3,7 @@ pkgver=3.3.9
 pkgrel=1
 url="http://ffmpeg.org/"
 source=("http://ffmpeg.org/releases/ffmpeg-$pkgver.tar.xz" "ffmpeg.patch")
-sha256sums=('SKIP' '7fa761bdcd5c877193fd1d077bb3194b4b99e83b43c7ca9415e9549f9c37d002')
+sha256sums=('ae34f14fffa65a1a59b256737ca9af7bf4e296b7c4320d42512350126ce06c84' '7fa761bdcd5c877193fd1d077bb3194b4b99e83b43c7ca9415e9549f9c37d002')
 
 prepare() {
   cd $pkgname-$pkgver
@@ -14,7 +14,7 @@ build() {
   cd $pkgname-$pkgver
   ./configure --prefix=$prefix \
 		--enable-cross-compile \
-		--cross-prefix=$VITASDK/bin/arm-vita-eabi- \
+		--cross-prefix=$DOLCESDK/bin/arm-dolce-eabi- \
 		--disable-shared \
 		--disable-runtime-cpudetect \
 		--disable-armv5te \
@@ -39,7 +39,7 @@ build() {
 		--target-os=none \
 		--extra-cflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -march=armv7-a -mfloat-abi=hard " \
 		--extra-cxxflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -fno-rtti -fno-exceptions -std=gnu++11 -march=armv7-a -mfloat-abi=hard " \
-		--extra-ldflags=" -march=armv7-a -mfloat-abi=hard -L$VITASDK/lib " \
+		--extra-ldflags=" -march=armv7-a -mfloat-abi=hard " \
 		--disable-bzlib \
 		--disable-iconv \
 		--disable-lzma \
