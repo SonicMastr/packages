@@ -1,0 +1,16 @@
+pkgname=fnblit
+pkgver=master
+pkgrel=1
+url="https://git.shotatoshounenwachigau.moe/vita/${pkgname}"
+source=("https://git.shotatoshounenwachigau.moe/vita/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd ${pkgname}-${pkgver}/$pkgname
+  make -j$(nproc)
+}
+
+package () {
+  cd ${pkgname}-${pkgver}/$pkgname
+  make DESTDIR=${pkgdir} install
+}
