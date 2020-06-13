@@ -8,7 +8,7 @@ sha256sums=('SKIP')
 build() {
   cd vita-curl
   ./buildconf
-  ./configure --host=arm-vita-eabi  --prefix=$VITASDK/arm-vita-eabi/
+  ./configure --host=arm-dolce-eabi  --prefix=$DOLCESDK/arm-dolce-eabi/
   cp lib/config-vita.h lib/curl_config.h
   make -j$(nproc)
 }
