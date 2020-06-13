@@ -1,0 +1,12 @@
+diff -pu a/Configure b/Configure
+--- a/Configure	2020-06-13 14:08:51.065023165 -0400
++++ b/Configure	2020-06-13 14:10:04.049026125 -0400
+@@ -682,7 +682,7 @@ my %table=(
+ "uClinux-dist64","$ENV{'CC'}:\$(CFLAGS)::-D_REENTRANT::\$(LDFLAGS) \$(LDLIBS):SIXTY_FOUR_BIT_LONG:${no_asm}:$ENV{'LIBSSL_dlfcn'}:linux-shared:-fPIC:-shared:.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR):$ENV{'RANLIB'}::",
+ 
+ # Vita
+-"vita-cross","arm-vita-eabi-gcc::::::BN_LLONG:${no_asm}::Vita::::::",
++"vita-cross","arm-dolce-eabi-gcc::::::BN_LLONG:${no_asm}::Vita::::::",
+ 
+ );
+ 
