@@ -2,12 +2,17 @@ pkgname=libvita2d
 pkgver=9999
 pkgrel=1
 url="https://github.com/xerpi/libvita2d"
-source=("git://github.com/xerpi/libvita2d.git")
-sha256sums=('SKIP')
+source=("git://github.com/xerpi/libvita2d.git" "libvita2d.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd $pkgname
+  patch --strip=1 --input="${srcdir}/libvita2d.patch"
+}
 
 build() {
   cd $pkgname/$pkgname
-  make -j$(nproc) CFLAGS='-Wl,-q -Wall -O3 -I$(INCLUDES) -I$(VITASDK)/arm-vita-eabi/include/freetype2' # lto is broken on Windows vita-gcc for some reason
+  make -j$(nproc) CFLAGS='-Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2' # lto is broken on Windows vita-gcc for some reason
 }
 
 package () {
