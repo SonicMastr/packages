@@ -7,7 +7,7 @@ sha256sums=('SKIP')
 
 build() {
   cd tremor
-  ./autogen.sh --host=arm-vita-eabi --prefix=$prefix --disable-shared --enable-static
+  ./autogen.sh --host=arm-dolce-eabi --prefix=$prefix --disable-shared --enable-static
   sed -ie 's/-D_REENTRANT/-D_REENTRANT -Wa,-mimplicit-it=thumb/g' Makefile
   make -j$(nproc)
 }
