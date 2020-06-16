@@ -2,9 +2,14 @@ pkgname=vitaGL
 pkgver=0.1
 pkgrel=1
 url="https://github.com/Rinnegatamante/vitaGL"
-source=("https://github.com/Rinnegatamante/vitaGL/archive/$pkgver.tar.gz")
-sha256sums=('8d6d1c246ef6a83c04132fbb97294225edbeb8a2b6940f0546da085e909a0d33')
+source=("https://github.com/Rinnegatamante/vitaGL/archive/$pkgver.tar.gz" "vitagl.patch")
+sha256sums=('8d6d1c246ef6a83c04132fbb97294225edbeb8a2b6940f0546da085e909a0d33' 'SKIP')
 depends=('libmathneon')
+
+prepare() {
+  cd $pkgname-$pkgver
+  patch --strip=1 --input="${srcdir}/vitagl.patch"
+}
 
 build() {
   cd $pkgname-$pkgver

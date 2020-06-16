@@ -1,0 +1,87 @@
+diff --git a/Makefile b/Makefile
+index 0651f54..d9e8d23 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,7 @@ CGFILES  := $(foreach dir,$(SHADERS), $(wildcard $(dir)/*.cg))
+ HEADERS  := $(CGFILES:.cg=.h)
+ OBJS     := $(CFILES:.c=.o)
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ AR      = $(PREFIX)-gcc-ar
+ CFLAGS  = -g -Wl,-q -O2 -ffast-math -mtune=cortex-a9 -mfpu=neon -ftree-vectorize -DSTB_DXT_IMPLEMENTATION
+@@ -49,10 +49,10 @@ clean:
+ 	@make -C samples/sample7 clean
+ 	
+ install: $(TARGET).a
+-	@mkdir -p $(VITASDK)/$(PREFIX)/lib/
+-	cp $(TARGET).a $(VITASDK)/$(PREFIX)/lib/
+-	@mkdir -p $(VITASDK)/$(PREFIX)/include/
+-	cp source/vitaGL.h $(VITASDK)/$(PREFIX)/include/
++	@mkdir -p $(DESTDIR)$(DOLCESDK)/$(PREFIX)/lib/
++	cp $(TARGET).a $(DESTDIR)$(DOLCESDK)/$(PREFIX)/lib/
++	@mkdir -p $(DESTDIR)$(DOLCESDK)/$(PREFIX)/include/
++	cp source/vitaGL.h $(DESTDIR)$(DOLCESDK)/$(PREFIX)/include/
+ 	
+ samples: $(TARGET).a
+ 	@make -C samples/sample1
+diff --git a/source/hacks/sbrk.c b/source/hacks/sbrk.c
+index 828ce3c..5b6e0a4 100644
+--- a/source/hacks/sbrk.c
++++ b/source/hacks/sbrk.c
+@@ -47,7 +47,7 @@
+ 
+ #include <errno.h>
+ #include <reent.h>
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ 
+ extern unsigned int _newlib_heap_size_user __attribute__((weak));
+ 
+diff --git a/source/shared.h b/source/shared.h
+index 028650a..b6f8ca7 100644
+--- a/source/shared.h
++++ b/source/shared.h
+@@ -45,7 +45,7 @@ extern float DISPLAY_HEIGHT_FLOAT; // Display height in pixels (float)
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ 
+ #include "vitaGL.h"
+ 
+diff --git a/source/texture_callbacks.c b/source/texture_callbacks.c
+index a17690a..3357df5 100644
+--- a/source/texture_callbacks.c
++++ b/source/texture_callbacks.c
+@@ -22,7 +22,7 @@
+  */
+ 
+ #include <stdlib.h>
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ 
+ #include "texture_callbacks.h"
+ 
+@@ -117,4 +117,4 @@ void writeRA(void *data, uint32_t color) {
+ // Write callback for 8bpp unsigned R format
+ void writeR(void *data, uint32_t color) {
+ 	memcpy(data, &color, 1);
+-}
+\ No newline at end of file
++}
+diff --git a/source/vitaGL.h b/source/vitaGL.h
+index c500a70..dd78e0e 100644
+--- a/source/vitaGL.h
++++ b/source/vitaGL.h
+@@ -23,7 +23,7 @@
+ extern "C" {
+ #endif
+ 
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ 
+ // clang-format off
+ #define GLfloat       float
