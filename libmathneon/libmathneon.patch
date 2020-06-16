@@ -1,0 +1,25 @@
+diff --git a/Makefile b/Makefile
+index 99f4f60..e1a7cd0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -8,7 +8,7 @@ CGFILES  := $(foreach dir,$(SHADERS), $(wildcard $(dir)/*.cg))
+ HEADERS  := $(CGFILES:.cg=.h)
+ OBJS     := $(CFILES:.c=.o)
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ AR      = $(PREFIX)-gcc-ar
+ CFLAGS  = -g -Wl,-q -O2 -ffast-math -mtune=cortex-a9 -mfpu=neon -ftree-vectorize
+@@ -23,7 +23,7 @@ clean:
+ 	@rm -rf $(TARGET).a $(TARGET).elf $(OBJS)
+ 	
+ install: $(TARGET).a
+-	@mkdir -p $(VITASDK)/$(PREFIX)/lib/
+-	cp $(TARGET).a $(VITASDK)/$(PREFIX)/lib/
+-	@mkdir -p $(VITASDK)/$(PREFIX)/include/
+-	cp source/math_neon.h $(VITASDK)/$(PREFIX)/include/
++	@mkdir -p $(DOLCESDK)/$(PREFIX)/lib/
++	cp $(TARGET).a $(DOLCESDK)/$(PREFIX)/lib/
++	@mkdir -p $(DOLCESDK)/$(PREFIX)/include/
++	cp source/math_neon.h $(DOLCESDK)/$(PREFIX)/include/

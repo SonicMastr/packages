@@ -2,8 +2,13 @@ pkgname=libmathneon
 pkgver=9999
 pkgrel=1
 url="https://github.com/Rinnegatamante/math-neon"
-source=("git://github.com/Rinnegatamante/math-neon.git")
-sha256sums=('SKIP')
+source=("git://github.com/Rinnegatamante/math-neon.git" "libmathneon.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd math-neon
+  patch --strip=1 --input="${srcdir}/libmathneon.patch"
+}
 
 build() {
   cd math-neon
@@ -11,10 +16,10 @@ build() {
 }
 
 package () {
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/lib
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/include
+  mkdir -p $pkgdir/$DOLCESDK/arm-dolce-eabi/lib
+  mkdir -p $pkgdir/$DOLCESDK/arm-dolce-eabi/include
 
   cd math-neon
-  cp libmathneon.a $pkgdir/$VITASDK/arm-vita-eabi/lib/
-  cp source/math_neon.h $pkgdir/$VITASDK/arm-vita-eabi/include/
+  cp libmathneon.a $pkgdir/$DOLCESDK/arm-dolce-eabi/lib/
+  cp source/math_neon.h $pkgdir/$DOLCESDK/arm-dolce-eabi/include/
 }
