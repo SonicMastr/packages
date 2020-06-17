@@ -1,0 +1,32 @@
+diff --git a/Makefile.vita b/Makefile.vita
+index 2bde13a73..cedd6a76a 100644
+--- a/Makefile.vita
++++ b/Makefile.vita
+@@ -86,12 +86,12 @@ OBJS= src/SDL.o \
+       #src/render/opengl/SDL_render_gl.o \
+       #src/render/opengl/SDL_shaders_gl.o \
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ AR      = $(PREFIX)-ar
+ CFLAGS  = -g -Wl,-q -Wall -O3 -Iinclude \
+ 			-D__VITA__ -D__ARM_ARCH=7 -D__ARM_ARCH_7A__ \
+-			-mfpu=neon -mcpu=cortex-a9 -march=armv7-a -mfloat-abi=hard
++			-mfpu=neon -mcpu=cortex-a9 -mfloat-abi=hard
+ ASFLAGS = $(CFLAGS)
+ 
+ $(TARGET_LIB): $(OBJS)
+@@ -101,8 +101,9 @@ clean:
+ 	@rm -rf $(TARGET_LIB) $(OBJS)
+ 
+ install: $(TARGET_LIB)
+-	@cp  $(TARGET_LIB) $(VITASDK)/arm-vita-eabi/lib
+-	@mkdir -p "$(VITASDK)/arm-vita-eabi/include/SDL2"
+-	@cp include/*.h "$(VITASDK)/arm-vita-eabi/include/SDL2"
++	@mkdir -p $(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib
++	@cp  $(TARGET_LIB) $(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib
++	@mkdir -p "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/SDL2"
++	@cp include/*.h "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/SDL2"
+ 	@echo "Installed!"
+ 

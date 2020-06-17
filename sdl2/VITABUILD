@@ -2,8 +2,14 @@ pkgname=sdl2
 pkgver=9999
 pkgrel=1
 url="https://github.com/rsn8887/SDL-Vita.git"
-source=("git://github.com/rsn8887/SDL-Vita.git")
-sha256sums=('SKIP')
+source=("git://github.com/rsn8887/SDL-Vita.git" "sdl2.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd SDL-Vita
+  patch --strip=1 --input="${srcdir}/sdl2.patch"
+}
+
 
 build() {
   cd SDL-Vita
@@ -12,7 +18,5 @@ build() {
 
 package () {
   cd SDL-Vita
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make -f Makefile.vita VITASDK=$pkgdir/$VITASDK install
+  make -f Makefile.vita DESTDIR=${pkgdir} install
 }
