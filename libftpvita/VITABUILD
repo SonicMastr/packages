@@ -2,8 +2,13 @@ pkgname=libftpvita
 pkgver=9999
 pkgrel=1
 url="https://github.com/xerpi/libftpvita"
-source=("git://github.com/xerpi/libftpvita.git")
-sha256sums=('SKIP')
+source=("git://github.com/xerpi/libftpvita.git" "libftpvita.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd $pkgname
+  patch --strip=1 --input="${srcdir}/libftpvita.patch"
+}
 
 build() {
   cd $pkgname/$pkgname

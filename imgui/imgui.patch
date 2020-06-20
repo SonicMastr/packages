@@ -1,0 +1,41 @@
+diff --git a/Makefile b/Makefile
+index b8f446e..a26b2e4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,7 @@ CPPFILES   := $(foreach dir,$(CPPSOURCES), $(wildcard $(dir)/*.cpp))
+ BINFILES := $(foreach dir,$(DATA), $(wildcard $(dir)/*.bin))
+ OBJS     := $(addsuffix .o,$(BINFILES)) $(CFILES:.c=.o) $(CPPFILES:.cpp=.o)
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ CXX      = $(PREFIX)-g++
+ CFLAGS  = -Wl,-q -O2 -g -mtune=cortex-a9 -mfpu=neon -ftree-vectorize
+@@ -25,10 +25,10 @@ $(TARGET).a: $(OBJS)
+ 	$(AR) -rc $@ $^
+ 
+ install: $(TARGET).a
+-	@mkdir -p $(VITASDK)/$(PREFIX)/lib/
+-	cp $(TARGET).a $(VITASDK)/$(PREFIX)/lib/
+-	@mkdir -p $(VITASDK)/$(PREFIX)/include/
+-	cp *.h $(VITASDK)/$(PREFIX)/include/
++	@mkdir -p $(DESTDIR)$(DOLCESDK)/$(PREFIX)/lib/
++	cp $(TARGET).a $(DESTDIR)$(DOLCESDK)/$(PREFIX)/lib/
++	@mkdir -p $(DESTDIR)$(DOLCESDK)/$(PREFIX)/include/
++	cp *.h $(DESTDIR)$(DOLCESDK)/$(PREFIX)/include/
+ 
+ clean:
+ 	@rm -rf $(TARGET).a $(TARGET).elf $(OBJS)
+diff --git a/imgui_impl_vitagl.h b/imgui_impl_vitagl.h
+index 8e2eb15..574277c 100644
+--- a/imgui_impl_vitagl.h
++++ b/imgui_impl_vitagl.h
+@@ -1,7 +1,7 @@
+ // Implemented features:
+ //  [X] User texture binding. Cast 'GLuint' OpenGL texture identifier as void*/ImTextureID. Read the FAQ about ImTextureID in imgui.cpp.
+ 
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ 
+ IMGUI_API bool        ImGui_ImplVitaGL_Init();
+ IMGUI_API void        ImGui_ImplVitaGL_Shutdown();

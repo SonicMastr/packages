@@ -14,7 +14,7 @@ build() {
   cd ${pkgname}-${pkgver}/build
   ./autogen.sh
   cd ..
-  ./configure --prefix=${prefix} --host=arm-vita-eabi --disable-shared --enable-static --disable-bsdtar --disable-bsdcat --disable-bsdcpio --disable-acl --without-xml2
+  ./configure --prefix=${prefix} --host=arm-dolce-eabi --disable-shared --enable-static --disable-bsdtar --disable-bsdcat --disable-bsdcpio --disable-acl --without-xml2
   make -j$(nproc)
 }
 

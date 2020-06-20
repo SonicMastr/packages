@@ -2,8 +2,13 @@ pkgname=libbaremetal
 pkgver=9999
 pkgrel=1
 url="https://github.com/xerpi/vita-libbaremetal.git"
-source=("git://github.com/xerpi/vita-libbaremetal.git")
-sha256sums=('SKIP')
+source=("git://github.com/xerpi/vita-libbaremetal.git" "libbaremetal.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd vita-libbaremetal
+  patch --strip=1 --input="${srcdir}/libbaremetal.patch"
+}
 
 build() {
   cd vita-libbaremetal/libbaremetal

@@ -13,7 +13,7 @@ build() {
   sed -i "s/(__GNUC__ == 7) && (__GNUC_MINOR__ == 2)/(__GNUC__ == 7) \&\& (__GNUC_MINOR__ >= 2)/" glm/simd/platform.h
 
   mkdir build && cd build
-  cmake .. -DCMAKE_TOOLCHAIN_FILE=$VITASDK/share/vita.toolchain.cmake -DCMAKE_INSTALL_PREFIX=$prefix
+  cmake .. -DCMAKE_TOOLCHAIN_FILE=$DOLCESDK/share/dolce.toolchain.cmake -DCMAKE_INSTALL_PREFIX=$prefix
   make -j$(nproc)
 }
 

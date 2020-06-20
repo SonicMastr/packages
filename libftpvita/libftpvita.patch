@@ -1,0 +1,17 @@
+diff --git a/libftpvita/Makefile b/libftpvita/Makefile
+index 39160f1..09b0113 100644
+--- a/libftpvita/Makefile
++++ b/libftpvita/Makefile
+@@ -1,9 +1,9 @@
+ TARGET_LIB = libftpvita.a
+ OBJS       = ftpvita.o
+ 
+-PREFIX  ?= $(VITASDK)/arm-vita-eabi
+-CC      = arm-vita-eabi-gcc
+-AR      = arm-vita-eabi-ar
++PREFIX  ?= $(DOLCESDK)/arm-dolce-eabi
++CC      = arm-dolce-eabi-gcc
++AR      = arm-dolce-eabi-ar
+ CFLAGS  = -Wl,-q -Wall -O3
+ ASFLAGS = $(CFLAGS)
+ 

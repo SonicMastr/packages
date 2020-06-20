@@ -1,0 +1,32 @@
+diff --git a/libbaremetal/Makefile b/libbaremetal/Makefile
+index a47b0c3..b5deb3e 100644
+--- a/libbaremetal/Makefile
++++ b/libbaremetal/Makefile
+@@ -6,9 +6,9 @@ OBJS	= libc.o utils.o pervasive.o cdram.o uart.o gpio.o i2c.o \
+ 	  iftu.o dsi.o display.o spi.o syscon.o hdmi.o oled.o lcd.o \
+ 	  ctrl.o sysroot.o msif.o draw.o font.o tiny-printf.o font_data.o
+ 
+-VITASDK_PREFIX  ?= $(VITASDK)/arm-vita-eabi
++DOLCESDK_PREFIX  ?= $(DOLCESDK)/arm-dolce-eabi
+ 
+-PREFIX	= arm-vita-eabi
++PREFIX	= arm-dolce-eabi
+ CC	= $(PREFIX)-gcc
+ AR	= $(PREFIX)-ar
+ CFLAGS	= -I$(INCDIR) -I$(MBEDTLS)/include -mcpu=cortex-a9 -mthumb-interwork \
+@@ -37,10 +37,10 @@ clean:
+ 	@$(MAKE) -C $(MBEDTLS)/library clean
+ 
+ install: $(TARGET).a
+-	@mkdir -p $(DESTDIR)$(VITASDK_PREFIX)/lib
+-	cp $(TARGET).a $(DESTDIR)$(VITASDK_PREFIX)/lib
+-	@mkdir -p $(DESTDIR)$(VITASDK_PREFIX)/include/baremetal
+-	cp -r $(INCDIR)/. $(DESTDIR)$(VITASDK_PREFIX)/include/baremetal
+-	@echo "Installed to $(DESTDIR)$(VITASDK_PREFIX)"
++	@mkdir -p $(DESTDIR)$(DOLCESDK_PREFIX)/lib
++	cp $(TARGET).a $(DESTDIR)$(DOLCESDK_PREFIX)/lib
++	@mkdir -p $(DESTDIR)$(DOLCESDK_PREFIX)/include/baremetal
++	cp -r $(INCDIR)/. $(DESTDIR)$(DOLCESDK_PREFIX)/include/baremetal
++	@echo "Installed to $(DESTDIR)$(DOLCESDK_PREFIX)"
+ 
+ -include $(DEPS)
