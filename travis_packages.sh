@@ -16,6 +16,7 @@ b harfbuzz
 b fftw
 b libvita2d
 b libvita2d_ext
+b libvita2d_sys
 b libmad
 b libogg
 b libvorbis
@@ -64,8 +65,8 @@ b libmathneon
 b vitaGL
 b imgui
 b libbaremetal
+b minizip
+b jsoncpp
 b lame
 b ffmpeg
-b libvita2d_sys
-b minizip
 b fnblit
