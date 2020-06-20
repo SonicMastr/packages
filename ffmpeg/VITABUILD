@@ -38,9 +38,8 @@ build() {
 		--cpu=cortex-a9 \
 		--disable-armv6t2 \
 		--target-os=none \
-		--extra-cflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -march=armv7-a -mfloat-abi=hard " \
-		--extra-cxxflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -fno-rtti -fno-exceptions -std=gnu++11 -march=armv7-a -mfloat-abi=hard " \
-		--extra-ldflags=" -march=armv7-a -mfloat-abi=hard " \
+		--extra-cflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -mfloat-abi=hard " \
+		--extra-cxxflags=" -Wl,-q -O3 -mfpu=neon -fomit-frame-pointer -ffast-math -fno-rtti -fno-exceptions -std=gnu++11 -mfloat-abi=hard " \
 		--disable-bzlib \
 		--disable-iconv \
 		--disable-lzma \
