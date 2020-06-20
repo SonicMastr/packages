@@ -49,17 +49,14 @@ b glm
 b libxml2
 b speexdsp
 b pixman
-b TinyGL
 b taipool
 b mpg123
 b libmpeg2
 b soloud
 b quirc
-b Box2D
 b libsndfile
 b xz
 b libarchive
-b bullet
 b libimagequant
 b libmodplug
 b libconfig
@@ -72,3 +69,4 @@ b lame
 b ffmpeg
 b libvita2d_sys
 b minizip
+b fnblit
