@@ -4,8 +4,8 @@ set -e
 
 b() {
 	pushd $1
-	vita-makepkg -C -f
-	tar -C $VITASDK/arm-vita-eabi/ -xvf *-arm.tar.xz
+	dolce-makepkg -C -f
+	tar -C $DOLCESDK/arm-dolce-eabi/ -xvf *-arm.tar.xz
 	popd
 }
 

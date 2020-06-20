@@ -28,17 +28,17 @@ b taihen
 b libk
 b onigmo
 b sdl
-b sdl_image
-b sdl_mixer
-b sdl_net
-b sdl_ttf
-b sdl_gfx
+# b sdl_image
+# b sdl_mixer
+# b sdl_net
+# b sdl_ttf
+# b sdl_gfx
 b sdl2
-b sdl2_image
-b sdl2_mixer
-b sdl2_net
-b sdl2_ttf
-b sdl2_gfx
+# b sdl2_image
+# b sdl2_mixer
+# b sdl2_net
+# b sdl2_ttf
+# b sdl2_gfx
 b openssl
 b curl
 b curlpp
