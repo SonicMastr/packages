@@ -57,7 +57,6 @@ b quirc
 b libsndfile
 b xz
 b libarchive
-b libimagequant
 b libmodplug
 b libconfig
 b libsodium
