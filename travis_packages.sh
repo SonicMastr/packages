@@ -15,7 +15,6 @@ b freetype
 b harfbuzz
 b fftw
 b libvita2d
-b libvita2d_ext
 b libvita2d_sys
 b libmad
 b libogg
