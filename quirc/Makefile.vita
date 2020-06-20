@@ -23,9 +23,9 @@ LIB_OBJ = \
     lib/version_db.o
 INCLUDES = lib
 
-CC      = arm-vita-eabi-gcc
-AR      = arm-vita-eabi-ar
-PREFIX  ?= ${VITASDK}/arm-vita-eabi
+CC      = arm-dolce-eabi-gcc
+AR      = arm-dolce-eabi-ar
+PREFIX  ?= ${DOLCESDK}/arm-dolce-eabi
 CFLAGS ?= -Wl,-q -Wall -O3 -I$(INCLUDES) -ffat-lto-objects -flto
 ASFLAGS = $(CFLAGS)
 

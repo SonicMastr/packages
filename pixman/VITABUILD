@@ -9,7 +9,7 @@ build() {
   cd $pkgname-$pkgver
   sed -i.bak 's/SUBDIRS = pixman demos test/SUBDIRS = pixman/' Makefile.am
   autoreconf -fi
-  ./configure --host=arm-vita-eabi --prefix=$prefix --disable-shared --enable-static
+  ./configure --host=arm-dolce-eabi --prefix=$prefix --disable-shared --enable-static
   make -j$(nproc)
 }
 

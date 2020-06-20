@@ -17,6 +17,6 @@ build() {
 
 package () {
   cd ${pkgname}
-  mkdir -p ${pkgdir}/$VITASDK/arm-vita-eabi/lib
-  cp libunrar.a ${pkgdir}/$VITASDK/arm-vita-eabi/lib
+  mkdir -p ${pkgdir}/$DOLCESDK/arm-dolce-eabi/lib
+  cp libunrar.a ${pkgdir}/$DOLCESDK/arm-dolce-eabi/lib
 }

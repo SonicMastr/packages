@@ -2,8 +2,13 @@ pkgname=libmad
 pkgver=0.15.1b
 pkgrel=1
 url="https://github.com/cpasjuste/libmad-psp2"
-source=("git://github.com/cpasjuste/libmad-psp2.git#branch=master")
-sha256sums=('SKIP')
+source=("git://github.com/cpasjuste/libmad-psp2.git#branch=master" "libmad.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd libmad-psp2
+  patch --strip=1 --input="${srcdir}/libmad.patch"
+}
 
 build() {
   cd libmad-psp2
@@ -13,7 +18,5 @@ build() {
 
 package () {
   cd libmad-psp2
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make VITASDK=$pkgdir/$VITASDK install
+  make DESTDIR="${pkgdir}" install
 }

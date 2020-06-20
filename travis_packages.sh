@@ -70,3 +70,4 @@ b jsoncpp
 b lame
 b ffmpeg
 b fnblit
+b libtheora

@@ -1,0 +1,41 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 256161a..d1d4ac9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,15 +1,15 @@
+ cmake_minimum_required(VERSION 2.8)
+ 
+ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+-  if(DEFINED ENV{VITASDK})
+-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
++  if(DEFINED ENV{DOLCESDK})
++    set(CMAKE_TOOLCHAIN_FILE "$ENV{DOLCESDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
+   else()
+-    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
++    message(FATAL_ERROR "Please define DOLCESDK to point to your SDK path!")
+   endif()
+ endif()
+ 
+ project(taipool)
+-include("${VITASDK}/share/vita.cmake" REQUIRED)
++include("${DOLCESDK}/share/dolce.cmake" REQUIRED)
+ 
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -O3 -std=gnu99")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
+diff --git a/taipool.c b/taipool.c
+index 9c07d0f..88781e4 100644
+--- a/taipool.c
++++ b/taipool.c
+@@ -1,4 +1,4 @@
+-#include <vitasdk.h>
++#include <dolcesdk.h>
+ #include "taipool.h"
+ 
+ #define POOL_PADDING 0x100 // Difference between stack pointer and mempool start in bytes
+@@ -242,4 +242,4 @@ void* taipool_realloc(void* ptr, size_t size){
+ // Returns currently free space on mempool
+ size_t taipool_get_free_space(void){
+ 	return mempool_free;
+-}
+\ No newline at end of file
++}

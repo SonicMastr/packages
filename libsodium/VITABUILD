@@ -8,7 +8,7 @@ sha256sums=('6f504490b342a4f8a4c4a02fc9b866cbef8622d5df4e5452b46be121e46636c1')
 build() {
   cd libsodium-$pkgver
   export CFLAGS='-Os'
-  ./configure --host=arm-vita-eabi --prefix=$prefix
+  ./configure --host=arm-dolce-eabi --prefix=$prefix
   make -j$(nproc)
 }
 

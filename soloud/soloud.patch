@@ -1,0 +1,17 @@
+diff --git a/build/genie.lua b/build/genie.lua
+index ff3763c..2cdf1fb 100644
+--- a/build/genie.lua
++++ b/build/genie.lua
+@@ -319,9 +319,9 @@ if _OPTIONS["with-vita-homebrew-only"] then
+ 	WITH_NOSOUND = 0
+ 	WITH_MINIAUDIO = 0
+ 
+-	premake.gcc.cc = "arm-vita-eabi-gcc"
+-	premake.gcc.cxx = "arm-vita-eabi-g++"
+-	premake.gcc.ar = "arm-vita-eabi-ar"
++	premake.gcc.cc = "arm-dolce-eabi-gcc"
++	premake.gcc.cxx = "arm-dolce-eabi-g++"
++	premake.gcc.ar = "arm-dolce-eabi-ar"
+ end
+ 
+ if _OPTIONS["with-jack"] then

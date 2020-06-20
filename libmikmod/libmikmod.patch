@@ -1,0 +1,24 @@
+diff --git a/libmikmod/vita/Makefile.vita b/libmikmod/vita/Makefile.vita
+index 1c04fe5..45cd90d 100644
+--- a/libmikmod/vita/Makefile.vita
++++ b/libmikmod/vita/Makefile.vita
+@@ -21,7 +21,7 @@ COMMON_OBJS = ../drivers/drv_vita.o ../drivers/drv_nos.o \
+ 	../playercode/virtch_common.o
+ 
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ AR      = $(PREFIX)-ar
+ CFLAGS  = -Wl,-q -Wall -O3 -I../include
+@@ -37,6 +37,8 @@ clean:
+ 	@rm -rf $(TARGET_LIB) $(COMMON_OBJS)
+ 
+ install: $(TARGET_LIB)
+-	@cp $(TARGET_LIB) $(VITASDK)/arm-vita-eabi/lib
+-	@cp ../include/mikmod.h "$(VITASDK)/arm-vita-eabi/include/"
++	@mkdir -p "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib"
++	@cp $(TARGET_LIB) "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib"
++	@mkdir -p "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/"
++	@cp ../include/mikmod.h "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/"
+ 	@echo "Installed!"

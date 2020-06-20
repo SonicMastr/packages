@@ -311,7 +311,7 @@ index 0000000..d490f71
 +			sha1.o sha256.o smallfn.o strfn.o strlist.o system.o threadpool.o \
 +			timefn.o ui.o unicode.o unpack.o volume.o
 +
-+PREFIX   = arm-vita-eabi
++PREFIX   = arm-dolce-eabi
 +CC       = $(PREFIX)-gcc
 +CXX      = $(PREFIX)-g++
 +AR       = $(PREFIX)-ar

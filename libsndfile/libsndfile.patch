@@ -79,7 +79,7 @@ index 417e3f59..f03fa229 100644
  	esac
 
 +AS_CASE([$host_vendor],
-+	[vita], [
++	[dolce], [
 +		TYPEOF_SF_COUNT_T="int64_t"
 +		SF_COUNT_MAX="0x7FFFFFFFFFFFFFFFLL"
 +		SIZEOF_SF_COUNT_T=8

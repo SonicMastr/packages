@@ -3,7 +3,7 @@ pkgver=1.0.28
 pkgrel=1
 url="http://www.mega-nerd.com/libsndfile"
 source=("http://www.mega-nerd.com/libsndfile/files/libsndfile-${pkgver}.tar.gz" "libsndfile.patch")
-sha256sums=('1ff33929f042fa333aed1e8923aa628c3ee9e1eb85512686c55092d1e5a9dfa9' '36900159b7800458ab964e0ebfc9952db7bdd7416fa6bfc43ed15873beb41c6e')
+sha256sums=('1ff33929f042fa333aed1e8923aa628c3ee9e1eb85512686c55092d1e5a9dfa9' 'e00a7407fa7b62459eb16ccb4dc395bfde871da9970bbc53845c6730b491e383')
 
 prepare() {
   cd $pkgname-$pkgver
@@ -13,7 +13,7 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
-  ./configure --host=arm-vita-eabi --prefix=$prefix --disable-shared --enable-static --disable-full-suite
+  ./configure --host=arm-dolce-eabi --prefix=$prefix --disable-shared --enable-static --disable-full-suite
   make -j$(nproc)
 }
 

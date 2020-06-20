@@ -2,8 +2,13 @@ pkgname=libmikmod
 pkgver=9999
 pkgrel=1
 url="https://github.com/usineur/mikmod"
-source=("git://github.com/usineur/mikmod.git#branch=vita")
-sha256sums=('SKIP')
+source=("git://github.com/usineur/mikmod.git#branch=vita" "libmikmod.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd mikmod
+  patch --strip=1 --input="${srcdir}/libmikmod.patch"
+}
 
 build() {
   cd mikmod/libmikmod/vita
@@ -13,7 +18,5 @@ build() {
 
 package () {
   cd mikmod/libmikmod/vita
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make -f Makefile.vita VITASDK=$pkgdir/$VITASDK install
+  make -f Makefile.vita DESTDIR="${pkgdir}" install
 }
