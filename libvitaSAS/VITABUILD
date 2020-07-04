@@ -1,0 +1,16 @@
+pkgname=libvitaSAS
+pkgver=master
+pkgrel=1
+url='https://github.com/GrapheneCt/libvitaSAS'
+source=('https://github.com/GrapheneCt/libvitaSAS/archive/master.zip')
+sha256sums=('SKIP')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  make -j$(nproc)
+}
+
+package () {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}
