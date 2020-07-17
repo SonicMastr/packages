@@ -1,0 +1,17 @@
+pkgname=psp2dbg
+pkgver=master
+pkgrel=1
+url="https://git.shotatoshounenwachigau.moe/vita/${pkgname}"
+source=("https://git.shotatoshounenwachigau.moe/vita/${pkgname}/snapshot/${pkgname}-${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  cmake .
+  make -j$(nproc)
+}
+
+package () {
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+}

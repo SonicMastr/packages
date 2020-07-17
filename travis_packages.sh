@@ -72,3 +72,4 @@ b fnblit
 b libtheora
 b libvitaSAS
 b libShellAudio
+b psp2dbg
