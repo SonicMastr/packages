@@ -1,22 +1,23 @@
 pkgname=imgui
-pkgver=9999
+pkgver=dad8e011657f9e1b6760e6f23fb9292be540b8c1
 pkgrel=1
 url="https://github.com/Rinnegatamante/imgui-vita"
-source=("git://github.com/Rinnegatamante/imgui-vita.git" "imgui.patch")
-sha256sums=('SKIP' 'SKIP')
+source=("https://github.com/Rinnegatamante/imgui-vita/archive/${pkgver}.tar.gz" "imgui.patch")
+sha256sums=('dab441bc87e8018c00bfc640a683b3eca9c268a9876a8f5f065d6169a8ad9bbb' 'SKIP')
 depends=('libmathneon' 'vitaGL')
 
 prepare() {
-  cd $pkgname-vita
+  mv "imgui-vita-${pkgver}" "${pkgname}"
+  cd "${pkgname}"
   patch --strip=1 --input="${srcdir}/imgui.patch"
 }
 
 build() {
-  cd $pkgname-vita
+  cd "${pkgname}"
   make -j$(nproc)
 }
 
 package () {
-  cd $pkgname-vita
+  cd "${pkgname}"
   make DESTDIR=$pkgdir install
 }

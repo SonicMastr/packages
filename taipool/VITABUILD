@@ -1,24 +1,22 @@
 pkgname=taipool
-pkgver=9999
+pkgver=f0e55808c4d2bdf32275c676b9c413a4b90fec24
 pkgrel=1
 url="https://github.com/Rinnegatamante/taipool"
-source=("git://github.com/Rinnegatamante/taipool.git" "taipool.patch")
-sha256sums=('SKIP' 'SKIP')
+source=("https://github.com/Rinnegatamante/${pkgname}/archive/${pkgver}.zip" "taipool.patch")
+sha256sums=('1e2d83fc87283b318fd38d69b48247370514dd833db1e340a79392d9f45fca1e' 'SKIP')
 
 prepare() {
-  cd "$pkgname"
+  cd "${pkgname}-${pkgver}"
   patch --strip=1 --input="${srcdir}/taipool.patch"
 }
 
 build() {
-  cd $pkgname
-  mkdir build && cd build
-  cmake .. -DCMAKE_TOOLCHAIN_FILE=$DOLCESDK/share/dolce.toolchain.cmake -DCMAKE_INSTALL_PREFIX=$prefix
+  cd "${pkgname}-${pkgver}"
+  cmake . -DCMAKE_TOOLCHAIN_FILE="${DOLCESDK}/share/dolce.toolchain.cmake"
   make -j$(nproc)
 }
 
 package () {
-  cd $pkgname/build
-  make DESTDIR=$pkgdir install
+  cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
 }
-

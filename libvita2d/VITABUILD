@@ -1,22 +1,22 @@
 pkgname=libvita2d
-pkgver=9999
+pkgver=03fdda9b83a20bead980e52255575a112e5f8308
 pkgrel=1
 url="https://github.com/xerpi/libvita2d"
-source=("git://github.com/xerpi/libvita2d.git#commit=03fdda9b83a20bead980e52255575a112e5f8308" "libvita2d.patch")
-sha256sums=('SKIP' 'SKIP')
+source=("https://github.com/xerpi/${pkgname}/archive/${pkgver}.zip" 'libvita2d.patch')
+sha256sums=('f4953478900afee99d78513a3a921e0d953726210c35d39751e6e2029c77b94c' 'SKIP')
 depends=('zlib' 'libpng' 'libjpeg-turbo' 'freetype')
 
 prepare() {
-  cd $pkgname
+  cd "${pkgname}-${pkgver}"
   patch --strip=1 --input="${srcdir}/libvita2d.patch"
 }
 
 build() {
-  cd $pkgname/$pkgname
-  make -j$(nproc) CFLAGS='-Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2' # lto is broken on Windows vita-gcc for some reason
+  cd "${pkgname}-${pkgver}/libvita2d"
+  make -j$(nproc)
 }
 
 package () {
-  cd $pkgname/$pkgname
-  make DESTDIR=$pkgdir install
+  cd "${pkgname}-${pkgver}/libvita2d"
+  make DESTDIR="${pkgdir}" install
 }

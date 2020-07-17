@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 256161a..d1d4ac9 100644
+index 256161a..acf9abd 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,15 +1,15 @@
@@ -9,7 +9,7 @@ index 256161a..d1d4ac9 100644
 -  if(DEFINED ENV{VITASDK})
 -    set(CMAKE_TOOLCHAIN_FILE "$ENV{VITASDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
 +  if(DEFINED ENV{DOLCESDK})
-+    set(CMAKE_TOOLCHAIN_FILE "$ENV{DOLCESDK}/share/vita.toolchain.cmake" CACHE PATH "toolchain file")
++    set(CMAKE_TOOLCHAIN_FILE "$ENV{DOLCESDK}/share/dolce.toolchain.cmake" CACHE PATH "toolchain file")
    else()
 -    message(FATAL_ERROR "Please define VITASDK to point to your SDK path!")
 +    message(FATAL_ERROR "Please define DOLCESDK to point to your SDK path!")
@@ -23,7 +23,7 @@ index 256161a..d1d4ac9 100644
  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -O3 -std=gnu99")
  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 diff --git a/taipool.c b/taipool.c
-index 9c07d0f..88781e4 100644
+index 9c07d0f..379d04b 100644
 --- a/taipool.c
 +++ b/taipool.c
 @@ -1,4 +1,4 @@
@@ -32,6 +32,15 @@ index 9c07d0f..88781e4 100644
  #include "taipool.h"
  
  #define POOL_PADDING 0x100 // Difference between stack pointer and mempool start in bytes
+@@ -157,7 +157,7 @@ int taipool_init(size_t size){
+ 		SceKernelThreadInfo mempool_info;
+ 		mempool_info.size = sizeof(SceKernelThreadInfo);
+ 		if (!sceKernelGetThreadInfo(pool_id, &mempool_info)){
+-			mempool_addr = mempool_info.stack + POOL_PADDING;
++			mempool_addr = mempool_info.pStack + POOL_PADDING;
+ 			mempool_id = pool_id;
+ 			mempool_size = mempool_info.stackSize - POOL_PADDING;
+ 		
 @@ -242,4 +242,4 @@ void* taipool_realloc(void* ptr, size_t size){
  // Returns currently free space on mempool
  size_t taipool_get_free_space(void){

@@ -1,16 +1,16 @@
 pkgname=libvita2d_sys
-pkgver=9999
+pkgver=master
 pkgrel=1
 url="https://github.com/GrapheneCt/libvita2d_sys"
-source=("git://github.com/GrapheneCt/libvita2d_sys.git")
+source=("https://github.com/GrapheneCt/${pkgname}/archive/${pkgver}.zip")
 sha256sums=('SKIP')
 
 build() {
-  cd $pkgname/$pkgname
-  make -j$(nproc) CFLAGS='-Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2' # lto is broken on Windows vita-gcc for some reason
+  cd "${pkgname}-${pkgver}/libvita2d_sys"
+  make -j$(nproc)
 }
 
 package () {
-  cd $pkgname/$pkgname
-  make DESTDIR=$pkgdir install
+  cd "${pkgname}-${pkgver}/libvita2d_sys"
+  make DESTDIR="${pkgdir}" install
 }
