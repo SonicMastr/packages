@@ -25,7 +25,6 @@ b libmikmod
 b libftpvita
 b henkaku
 b taihen
-b libk
 b onigmo
 b sdl
 # b sdl_image
