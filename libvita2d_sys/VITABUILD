@@ -2,8 +2,13 @@ pkgname=libvita2d_sys
 pkgver=master
 pkgrel=1
 url="https://github.com/GrapheneCt/libvita2d_sys"
-source=("https://github.com/GrapheneCt/${pkgname}/archive/${pkgver}.zip")
-sha256sums=('SKIP')
+source=("https://github.com/GrapheneCt/${pkgname}/archive/${pkgver}.zip" "libvita2d_sys.patch")
+sha256sums=('SKIP' 'SKIP')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  patch --strip=1 --input="${srcdir}/libvita2d_sys.patch"
+}
 
 build() {
   cd "${pkgname}-${pkgver}/libvita2d_sys"

@@ -26,7 +26,7 @@ INCLUDES = lib
 CC      = arm-dolce-eabi-gcc
 AR      = arm-dolce-eabi-ar
 PREFIX  ?= ${DOLCESDK}/arm-dolce-eabi
-CFLAGS ?= -Wl,-q -Wall -O3 -I$(INCLUDES) -ffat-lto-objects -flto
+CFLAGS ?= -Wl,-q -Wall -O3 -I$(INCLUDES)
 ASFLAGS = $(CFLAGS)
 
 all: $(TARGET_LIB)
