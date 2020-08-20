@@ -1,24 +1,24 @@
 pkgname=openssl
-pkgver=1.0.2
+pkgver=1.0.2s
 pkgrel=1
 url="https://github.com/d3m3vilurr/vita-openssl"
-source=("git://github.com/d3m3vilurr/vita-openssl.git#branch=vita-1_0_2s" "openssl.patch")
-sha256sums=('SKIP' 'SKIP')
+source=("https://github.com/d3m3vilurr/vita-openssl/archive/vita-1_0_2s.tar.gz" "openssl.patch")
+sha256sums=('cf619bc60c79e85fc48896a8d166afc741ece05e993fd4607f80dbe917384e94' 'SKIP')
 
 prepare() {
-  cd vita-openssl
+  cd "vita-openssl-vita-1_0_2s"
   patch --strip=1 --input="${srcdir}/openssl.patch"
 }
 
 build() {
-  cd vita-openssl
+  cd "vita-openssl-vita-1_0_2s"
   ./Configure no-threads --prefix=$DOLCESDK/arm-dolce-eabi/ vita-cross
   make -j$(nproc) depend
   make -j$(nproc)
 }
 
 package () {
-  cd vita-openssl
+  cd "vita-openssl-vita-1_0_2s"
   printf '#!/bin/bash\nmkdir -p $@\n' > util/mkdir-p.pl
   make INSTALL_PREFIX=$pkgdir install
   rm -rf $pkgdir/$prefix/ssl/man # remove useless man pages

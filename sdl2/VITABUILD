@@ -1,22 +1,22 @@
 pkgname=sdl2
-pkgver=9999
+pkgver=master
 pkgrel=1
-url="https://github.com/rsn8887/SDL-Vita.git"
-source=("git://github.com/rsn8887/SDL-Vita.git" "sdl2.patch")
-sha256sums=('SKIP' 'SKIP')
+url="https://github.com/rsn8887/SDL-Vita"
+source=("https://github.com/rsn8887/SDL-Vita/archive/${pkgver}.tar.gz" "sdl2.patch")
+sha256sums=('f0eccc159abd01e992b42b3defc11f1f4251a95491ce79ce181b1c9f599a6733' 'SKIP')
 
 prepare() {
-  cd SDL-Vita
+  cd "SDL-Vita-${pkgver}"
   patch --strip=1 --input="${srcdir}/sdl2.patch"
 }
 
 
 build() {
-  cd SDL-Vita
+  cd "SDL-Vita-${pkgver}"
   make -j$(nproc) -f Makefile.vita
 }
 
 package () {
-  cd SDL-Vita
-  make -f Makefile.vita DESTDIR=${pkgdir} install
+  cd "SDL-Vita-${pkgver}"
+  make -f Makefile.vita DESTDIR="${pkgdir}" install
 }
