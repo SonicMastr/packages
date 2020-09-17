@@ -72,3 +72,4 @@ b libtheora
 b libvitaSAS
 b libShellAudio
 b psp2dbg
+b box2d

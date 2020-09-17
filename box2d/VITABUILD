@@ -1,0 +1,24 @@
+pkgname=box2d
+pkgver=master
+pkgrel=1
+url="https://github.com/erincatto/${pkgname}"
+source=("https://github.com/erincatto/${pkgname}/archive/${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  mkdir build
+  cd build
+  cmake .. \
+    -D CMAKE_TOOLCHAIN_FILE="$DOLCESDK/share/dolce.toolchain.cmake" \
+    -D BOX2D_BUILD_UNIT_TESTS=OFF \
+    -D BOX2D_BUILD_TESTBED=OFF \
+    -D BOX2D_BUILD_DOCS=OFF
+  make -j$(nproc)
+}
+
+package () {
+  cd "${pkgname}-${pkgver}"
+  cd build
+  make DESTDIR="${pkgdir}" install
+}
