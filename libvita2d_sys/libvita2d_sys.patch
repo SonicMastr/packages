@@ -1,13 +1,12 @@
 diff --git a/libvita2d_sys/Makefile b/libvita2d_sys/Makefile
-index 611e4d6..5cc3f28 100644
 --- a/libvita2d_sys/Makefile
 +++ b/libvita2d_sys/Makefile
 @@ -13,7 +13,7 @@ SHADERS    = shader/compiled/clear_v_gxp.o shader/compiled/clear_f_gxp.o \
  PREFIX  ?= ${DOLCESDK}/arm-dolce-eabi
  CC      = arm-dolce-eabi-gcc
  AR      = arm-dolce-eabi-ar
--CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2 -ffat-lto-objects -flto
-+CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2
+-CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES) -ffat-lto-objects -flto
++CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES)
  ASFLAGS = $(CFLAGS)
  
  all: $(TARGET_LIB)
