@@ -1,5 +1,4 @@
 diff --git a/libftpvita/Makefile b/libftpvita/Makefile
-index 39160f1..09b0113 100644
 --- a/libftpvita/Makefile
 +++ b/libftpvita/Makefile
 @@ -1,9 +1,9 @@
@@ -15,3 +14,25 @@ index 39160f1..09b0113 100644
  CFLAGS  = -Wl,-q -Wall -O3
  ASFLAGS = $(CFLAGS)
  
+diff --git a/libftpvita/ftpvita.c b/libftpvita/ftpvita.c
+--- a/libftpvita/ftpvita.c
++++ b/libftpvita/ftpvita.c
+@@ -12,8 +12,7 @@
+ 
+ #include <psp2/kernel/threadmgr.h>
+ 
+-#include <psp2/io/fcntl.h>
+-#include <psp2/io/dirent.h>
++#include <psp2/kernel/iofilemgr.h>
+ 
+ #include <psp2/net/net.h>
+ #include <psp2/net/netctl.h>
+@@ -371,7 +370,7 @@ static void send_LIST(ftpvita_client_info_t *client, const char *path)
+ 		memset(&dirent, 0, sizeof(dirent));
+ 
+ 		while (sceIoDread(dir, &dirent) > 0) {
+-			gen_list_format(buffer, sizeof(buffer), SCE_S_ISDIR(dirent.d_stat.st_mode),
++			gen_list_format(buffer, sizeof(buffer), SCE_STM_ISDIR(dirent.d_stat.st_mode),
+ 				&dirent.d_stat, dirent.d_name);
+ 			client_send_data_msg(client, buffer);
+ 			memset(&dirent, 0, sizeof(dirent));

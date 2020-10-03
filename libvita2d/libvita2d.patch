@@ -1,5 +1,5 @@
 diff --git a/libvita2d/Makefile b/libvita2d/Makefile
-index 3fc3633..86a403d 100644
+index 3fc3633..1e71372 100644
 --- a/libvita2d/Makefile
 +++ b/libvita2d/Makefile
 @@ -9,10 +9,10 @@ SHADERS    = shader/compiled/clear_v_gxp.o shader/compiled/clear_f_gxp.o \
@@ -13,7 +13,45 @@ index 3fc3633..86a403d 100644
 +PREFIX  ?= ${DOLCESDK}/arm-dolce-eabi
 +CC      = arm-dolce-eabi-gcc
 +AR      = arm-dolce-eabi-ar
-+CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES) -I$(DOLCESDK)/arm-dolce-eabi/include/freetype2
++CFLAGS  = -Wall -O3 -I$(INCLUDES) -I$(PREFIX)/include/freetype2
  ASFLAGS = $(CFLAGS)
  
  all: $(TARGET_LIB)
+diff --git a/libvita2d/source/vita2d_image_bmp.c b/libvita2d/source/vita2d_image_bmp.c
+index 1a7f9be..b851aaa 100755
+--- a/libvita2d/source/vita2d_image_bmp.c
++++ b/libvita2d/source/vita2d_image_bmp.c
+@@ -1,7 +1,7 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
+-#include <psp2/io/fcntl.h>
++#include <psp2/kernel/iofilemgr.h>
+ #include <psp2/gxm.h>
+ #include "vita2d.h"
+ 
+diff --git a/libvita2d/source/vita2d_image_jpeg.c b/libvita2d/source/vita2d_image_jpeg.c
+index 0f6c598..69edb92 100755
+--- a/libvita2d/source/vita2d_image_jpeg.c
++++ b/libvita2d/source/vita2d_image_jpeg.c
+@@ -1,7 +1,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <psp2/io/fcntl.h>
++#include <psp2/kernel/iofilemgr.h>
+ #include <psp2/gxm.h>
+ #include <jpeglib.h>
+ #include "vita2d.h"
+diff --git a/libvita2d/source/vita2d_image_png.c b/libvita2d/source/vita2d_image_png.c
+index 2af3d10..bd2e0cf 100755
+--- a/libvita2d/source/vita2d_image_png.c
++++ b/libvita2d/source/vita2d_image_png.c
+@@ -1,6 +1,6 @@
+ #include <string.h>
+ #include <stdlib.h>
+-#include <psp2/io/fcntl.h>
++#include <psp2/kernel/iofilemgr.h>
+ #include <psp2/gxm.h>
+ #include <png.h>
+ #include "vita2d.h"

@@ -1,8 +1,8 @@
 diff --git a/Makefile b/Makefile
-index 0651f54..d9e8d23 100644
+index 0651f54..5bd8b9f 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -11,7 +11,7 @@ CGFILES  := $(foreach dir,$(SHADERS), $(wildcard $(dir)/*.cg))
+@@ -11,10 +11,10 @@ CGFILES  := $(foreach dir,$(SHADERS), $(wildcard $(dir)/*.cg))
  HEADERS  := $(CGFILES:.cg=.h)
  OBJS     := $(CFILES:.c=.o)
  
@@ -10,7 +10,11 @@ index 0651f54..d9e8d23 100644
 +PREFIX  = arm-dolce-eabi
  CC      = $(PREFIX)-gcc
  AR      = $(PREFIX)-gcc-ar
- CFLAGS  = -g -Wl,-q -O2 -ffast-math -mtune=cortex-a9 -mfpu=neon -ftree-vectorize -DSTB_DXT_IMPLEMENTATION
+-CFLAGS  = -g -Wl,-q -O2 -ffast-math -mtune=cortex-a9 -mfpu=neon -ftree-vectorize -DSTB_DXT_IMPLEMENTATION
++CFLAGS  = -g -O2 -ffast-math -ftree-vectorize -DSTB_DXT_IMPLEMENTATION
+ ASFLAGS = $(CFLAGS)
+ 
+ ifeq ($(NO_DEBUG),1)
 @@ -49,10 +49,10 @@ clean:
  	@make -C samples/sample7 clean
  	
@@ -27,33 +31,37 @@ index 0651f54..d9e8d23 100644
  samples: $(TARGET).a
  	@make -C samples/sample1
 diff --git a/source/hacks/sbrk.c b/source/hacks/sbrk.c
-index 828ce3c..5b6e0a4 100644
+index 828ce3c..390aed6 100644
 --- a/source/hacks/sbrk.c
 +++ b/source/hacks/sbrk.c
-@@ -47,7 +47,7 @@
+@@ -47,7 +47,8 @@
  
  #include <errno.h>
  #include <reent.h>
 -#include <vitasdk.h>
-+#include <dolcesdk.h>
++#include <psp2/kernel/threadmgr.h>
++#include <psp2/kernel/sysmem.h>
  
  extern unsigned int _newlib_heap_size_user __attribute__((weak));
  
 diff --git a/source/shared.h b/source/shared.h
-index 028650a..b6f8ca7 100644
+index 028650a..809f61c 100644
 --- a/source/shared.h
 +++ b/source/shared.h
-@@ -45,7 +45,7 @@ extern float DISPLAY_HEIGHT_FLOAT; // Display height in pixels (float)
+@@ -45,7 +45,10 @@ extern float DISPLAY_HEIGHT_FLOAT; // Display height in pixels (float)
  
  #include <stdio.h>
  #include <stdlib.h>
 -#include <vitasdk.h>
-+#include <dolcesdk.h>
++#include <string.h>
++
++#include <psp2/display.h>
++#include <psp2/common_dialog.h>
  
  #include "vitaGL.h"
  
 diff --git a/source/texture_callbacks.c b/source/texture_callbacks.c
-index a17690a..3357df5 100644
+index a17690a..f7d1ab2 100644
 --- a/source/texture_callbacks.c
 +++ b/source/texture_callbacks.c
 @@ -22,7 +22,7 @@
@@ -61,7 +69,7 @@ index a17690a..3357df5 100644
  
  #include <stdlib.h>
 -#include <vitasdk.h>
-+#include <dolcesdk.h>
++#include <string.h>
  
  #include "texture_callbacks.h"
  
@@ -72,16 +80,35 @@ index a17690a..3357df5 100644
 -}
 \ No newline at end of file
 +}
+diff --git a/source/texture_callbacks.h b/source/texture_callbacks.h
+index dd038b5..6f0161e 100644
+--- a/source/texture_callbacks.h
++++ b/source/texture_callbacks.h
+@@ -24,6 +24,8 @@
+ #ifndef _TEXTURE_CALLBACKS_H_
+ #define _TEXTURE_CALLBACKS_H_
+ 
++#include <stdint.h>
++
+ // Read callbacks
+ uint32_t readR(void *data);
+ uint32_t readRG(void *data);
 diff --git a/source/vitaGL.h b/source/vitaGL.h
-index c500a70..dd78e0e 100644
+index c500a70..a19e590 100644
 --- a/source/vitaGL.h
 +++ b/source/vitaGL.h
-@@ -23,7 +23,7 @@
+@@ -19,12 +19,12 @@
+ #ifndef _VITAGL_H_
+ #define _VITAGL_H_
+ 
++#include <psp2/gxm.h>
++
+ #ifdef __cplusplus
  extern "C" {
  #endif
  
 -#include <vitasdk.h>
-+#include <dolcesdk.h>
- 
+-
  // clang-format off
  #define GLfloat       float
+ #define GLint         int32_t

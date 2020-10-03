@@ -1,6 +1,6 @@
 diff -Naur mpg123-1.25.10-old/configure.ac mpg123-1.25.10/configure.ac
---- mpg123-1.25.10-old/configure.ac	2017-08-29 01:49:00.661996762 +0200
-+++ mpg123-1.25.10/configure.ac	2017-08-29 01:49:41.609026671 +0200
+--- mpg123-1.25.10-old/configure.ac	2018-02-27 05:34:27.000000000 -0500
++++ mpg123-1.25.10/configure.ac	2020-10-02 23:56:40.002722939 -0400
 @@ -1217,6 +1217,20 @@
  #	AC_DEFINE( 
  #fi
@@ -23,16 +23,15 @@ diff -Naur mpg123-1.25.10-old/configure.ac mpg123-1.25.10/configure.ac
  
  # do not assume gcc here, so no flags by default
 diff -Naur mpg123-1.25.10-old/src/compat/compat.c mpg123-1.25.10/src/compat/compat.c
---- mpg123-1.25.10-old/src/compat/compat.c	2017-08-29 01:49:00.675330213 +0200
-+++ mpg123-1.25.10/src/compat/compat.c	2017-08-29 01:50:35.966177221 +0200
-@@ -45,6 +45,15 @@
+--- mpg123-1.25.10-old/src/compat/compat.c	2018-02-27 05:26:38.000000000 -0500
++++ mpg123-1.25.10/src/compat/compat.c	2020-10-02 23:57:07.774721884 -0400
+@@ -45,6 +45,14 @@
  #  endif
  #endif
  
 +/* vitasdk support */
 +#ifdef PSP2
-+#  include <psp2/io/dirent.h>
-+#  include <psp2/io/stat.h>
++#  include <psp2/kernel/iofilemgr.h>
 +
 +#  define opendir sceIoDopen
 +#  define closedir sceIoDclose
@@ -41,7 +40,7 @@ diff -Naur mpg123-1.25.10-old/src/compat/compat.c mpg123-1.25.10/src/compat/comp
  #include "debug.h"
  
  #ifndef WINDOWS_UWP
-@@ -423,6 +432,8 @@
+@@ -423,6 +431,8 @@
  	int gotone; /* Got a result stored from FindFirstFileW. */
  	WIN32_FIND_DATAW d;
  	HANDLE ffn;
@@ -50,7 +49,7 @@ diff -Naur mpg123-1.25.10-old/src/compat/compat.c mpg123-1.25.10/src/compat/comp
  #else
  	DIR* dir;
  #endif
-@@ -509,15 +520,25 @@
+@@ -509,15 +519,25 @@
  	}
  #else
  	{
@@ -78,7 +77,7 @@ diff -Naur mpg123-1.25.10-old/src/compat/compat.c mpg123-1.25.10/src/compat/comp
  			}
  			free(fullpath);
  		}
-@@ -543,15 +564,25 @@
+@@ -543,15 +563,25 @@
  	}
  #else
  	{
@@ -107,8 +106,8 @@ diff -Naur mpg123-1.25.10-old/src/compat/compat.c mpg123-1.25.10/src/compat/comp
  			free(fullpath);
  		}
 diff -Naur mpg123-1.25.10-old/src/compat/compat.h mpg123-1.25.10/src/compat/compat.h
---- mpg123-1.25.10-old/src/compat/compat.h	2017-08-29 01:49:00.675330213 +0200
-+++ mpg123-1.25.10/src/compat/compat.h	2017-08-29 01:50:34.099493907 +0200
+--- mpg123-1.25.10-old/src/compat/compat.h	2018-02-27 05:26:38.000000000 -0500
++++ mpg123-1.25.10/src/compat/compat.h	2020-10-02 23:56:40.002722939 -0400
 @@ -85,7 +85,8 @@
  #include <sys/time.h>
  #endif
@@ -120,8 +119,8 @@ diff -Naur mpg123-1.25.10-old/src/compat/compat.h mpg123-1.25.10/src/compat/comp
  #endif
  
 diff -Naur mpg123-1.25.10-old/src/control_generic.c mpg123-1.25.10/src/control_generic.c
---- mpg123-1.25.10-old/src/control_generic.c	2017-08-29 01:49:00.668663487 +0200
-+++ mpg123-1.25.10/src/control_generic.c	2017-08-29 01:50:15.649329482 +0200
+--- mpg123-1.25.10-old/src/control_generic.c	2018-02-27 05:26:38.000000000 -0500
++++ mpg123-1.25.10/src/control_generic.c	2020-10-02 23:56:40.002722939 -0400
 @@ -28,8 +28,10 @@
  #include <ctype.h>
  #if !defined (WIN32) || defined (__CYGWIN__)
@@ -148,8 +147,8 @@ diff -Naur mpg123-1.25.10-old/src/control_generic.c mpg123-1.25.10/src/control_g
  #else /* perhaps just use setvbuf as it's C89 */
  	/*
 diff -Naur mpg123-1.25.10-old/src/mpg123.c mpg123-1.25.10/src/mpg123.c
---- mpg123-1.25.10-old/src/mpg123.c	2017-08-29 01:49:00.668663487 +0200
-+++ mpg123-1.25.10/src/mpg123.c	2017-08-29 01:49:54.475807710 +0200
+--- mpg123-1.25.10-old/src/mpg123.c	2018-02-27 05:26:38.000000000 -0500
++++ mpg123-1.25.10/src/mpg123.c	2020-10-02 23:56:40.006722939 -0400
 @@ -1239,6 +1239,8 @@
  			if(param.verbose > 2) fprintf(stderr, "Note: pausing %i seconds before next track.\n", param.delay);
  #ifdef WIN32

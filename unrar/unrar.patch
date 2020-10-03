@@ -192,7 +192,7 @@ index 250637f..4b2340f 100644
  
 +#ifdef _UNIX
 +#ifdef __vita__
-+#include <psp2/io/dirent.h>
++#include <psp2/kernel/iofilemgr.h>
 +#else
 +#include <dirent.h>
 +#endif

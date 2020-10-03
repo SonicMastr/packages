@@ -2,17 +2,17 @@ pkgname=taipool
 pkgver=f0e55808c4d2bdf32275c676b9c413a4b90fec24
 pkgrel=1
 url="https://github.com/Rinnegatamante/taipool"
-source=("https://github.com/Rinnegatamante/${pkgname}/archive/${pkgver}.zip" "taipool.patch")
-sha256sums=('1e2d83fc87283b318fd38d69b48247370514dd833db1e340a79392d9f45fca1e' 'SKIP')
+source=("https://github.com/Rinnegatamante/${pkgname}/archive/${pkgver}.zip" "${pkgname}.patch")
+sha256sums=(1e2d83fc87283b318fd38d69b48247370514dd833db1e340a79392d9f45fca1e SKIP)
 
 prepare() {
   cd "${pkgname}-${pkgver}"
-  patch --strip=1 --input="${srcdir}/taipool.patch"
+  patch --strip=1 --input="${srcdir}/${pkgname}.patch"
 }
 
 build() {
   cd "${pkgname}-${pkgver}"
-  cmake . -DCMAKE_TOOLCHAIN_FILE="${DOLCESDK}/share/dolce.toolchain.cmake"
+  cmake .
   make -j$(nproc)
 }
 
