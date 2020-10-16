@@ -1,26 +1,169 @@
-sudo: required
+language: cpp
 os: linux
+dist: bionic
 addons:
   apt:
     sources:
-      - george-edison55-precise-backports # cmake >= 3
+      - sourceline: 'deb https://apt.kitware.com/ubuntu/ bionic main'
+        key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
     packages:
-      - fakeroot
+      - autoconf
+      - automake
+      - bsdtar
       - cmake
-      - cmake-data
-      - texinfo # Contains makeinfo that is required to build libconfig
-      - libtool-bin # Needed to build libtremor
-language: c
-compiler: clang
+      - fakeroot
+      - file
+      - libtool-bin
+      - pkg-config
+      - texinfo
+      - xutils-dev
 env:
-  - secure: "Nda6YrVena8n4idioQcGup4/CEMIBXd1XXq/ug6yYEqn7So5eHnU3z5KyN+s/VZcPNA3xLf21SZz3YrJwXW9KSGGTpRV8bpuPr0MjDPS5Dap53xWVYWetL0ATvL63Lpoc1cPgOzxlmAy96uHYdH4T8Yfa6qdVwHYsfGdr+IYhnRkGSBWyI/GBEcv4Tb9mhbuhSmZY3q5eCwRyjJ0j5jkJG4vW5bz5FkCsonPYQVaioga8zXcCdunc4SIAPUJXoNjHrjUSKiL+S7hr0qDX4x6Bu125OIJHsD0Ovj9WbAHZwalrTt6MdWe0unQhIEdpZgETtEkqS1j3J3YiGpC6vDu26bpZqxZKajvowhr7eqcr26a6nnqhuompOnaitBlMxwluNh7plLGb1CdZoZOVd5Y6cnMt4BjPkrr1V5GW5Xczk+0BIPM+swftvGX3Z690cqz2SPptEL5SAshCB8obo6vF7OfVLCto+FooseJ1FQfJL1IMnSY39x3DhQ7icJ43+rq9EFGCoxaVSxLhDSUE3p7gUm/zIdf+j83prt5o29b6FwOrkitESja//hWdIWvHttfr39UEPpcr9+fvVOwBNmew0utSP6iK9/2lroLyy62c4Rz4oWTkRZNjto4nafPaH0HyFKzDZ2J5u3FQ73wODttIRleNtnYjgeifUIzKxedw48="
-
-notifications:
-  email: false
-
-before_install:
-  - source ./travis_prepare.sh
-
-script:
-  - ./travis_build.sh
-  - ./travis_upload.sh
+  - DOLCESDK="$TRAVIS_BUILD_DIR/dolcesdk"
+    PATH="$DOLCESDK/bin:$PATH"
+before_script:
+  - sudo rm -rf /usr/local/cmake-* # workaround to remove default cmake that has priority in PATH
+stages:
+  - prepare
+  - build-stage-0
+  - build-stage-1
+  - build-stage-2
+  - build-stage-3
+  - build-stage-4
+  - build-stage-5
+  - build-stage-6
+  - build-stage-7
+jobs:
+  include:
+    - stage: prepare
+      workspaces:
+        create:
+          name: prepare
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/prepare.sh
+    - stage: build-stage-0
+      workspaces:
+        use: prepare
+        create:
+          name: build-stage-0
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "zlib"
+        - .travis.d/build.sh "bzip2"
+        - .travis.d/build.sh "libzip"
+        - .travis.d/build.sh "libpng"
+        - .travis.d/build.sh "libexif"
+        - .travis.d/build.sh "libjpeg-turbo"
+        - .travis.d/build.sh "jansson"
+        - .travis.d/build.sh "yaml-cpp"
+    - stage: build-stage-1
+      workspaces:
+        use: build-stage-0
+        create:
+          name: build-stage-1
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "freetype"
+        - .travis.d/build.sh "harfbuzz"
+        - .travis.d/build.sh "fftw"
+        - .travis.d/build.sh "libvita2d"
+        - .travis.d/build.sh "libvita2d_sys"
+        - .travis.d/build.sh "libmad"
+        - .travis.d/build.sh "libogg"
+        - .travis.d/build.sh "libvorbis"
+    - stage: build-stage-2
+      workspaces:
+        use: build-stage-1
+        create:
+          name: build-stage-2
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "flac"
+        - .travis.d/build.sh "libtremor"
+        - .travis.d/build.sh "libmikmod"
+        - .travis.d/build.sh "libftpvita"
+        - .travis.d/build.sh "henkaku"
+        - .travis.d/build.sh "taihen"
+        - .travis.d/build.sh "onigmo"
+        - .travis.d/build.sh "sdl"
+    - stage: build-stage-3
+      workspaces:
+        use: build-stage-2
+        create:
+          name: build-stage-3
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "sdl2"
+        - .travis.d/build.sh "openssl"
+        - .travis.d/build.sh "curl"
+        - .travis.d/build.sh "curlpp"
+        - .travis.d/build.sh "expat"
+        - .travis.d/build.sh "opus"
+        - .travis.d/build.sh "unrar"
+        - .travis.d/build.sh "glm"
+    - stage: build-stage-4
+      workspaces:
+        use: build-stage-3
+        create:
+          name: build-stage-4
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "libxml2"
+        - .travis.d/build.sh "speexdsp"
+        - .travis.d/build.sh "pixman"
+        - .travis.d/build.sh "taipool"
+        - .travis.d/build.sh "mpg123"
+        - .travis.d/build.sh "libmpeg2"
+        - .travis.d/build.sh "soloud"
+        - .travis.d/build.sh "quirc"
+    - stage: build-stage-5
+      workspaces:
+        use: build-stage-4
+        create:
+          name: build-stage-5
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "libsndfile"
+        - .travis.d/build.sh "xz"
+        - .travis.d/build.sh "libarchive"
+        - .travis.d/build.sh "libmodplug"
+        - .travis.d/build.sh "libconfig"
+        - .travis.d/build.sh "libsodium"
+        - .travis.d/build.sh "libmathneon"
+        - .travis.d/build.sh "vitaGL"
+    - stage: build-stage-6
+      workspaces:
+        use: build-stage-5
+        create:
+          name: build-stage-6
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "imgui"
+        - .travis.d/build.sh "libbaremetal"
+        - .travis.d/build.sh "minizip"
+        - .travis.d/build.sh "jsoncpp"
+        - .travis.d/build.sh "lame"
+        - .travis.d/build.sh "ffmpeg"
+        - .travis.d/build.sh "fnblit"
+        - .travis.d/build.sh "libtheora"
+    - stage: build-stage-7
+      workspaces:
+        use: build-stage-6
+        create:
+          name: build-stage-7
+          paths: "$TRAVIS_BUILD_DIR"
+      script:
+        - .travis.d/build.sh "libvitaSAS"
+        - .travis.d/build.sh "libShellAudio"
+        - .travis.d/build.sh "psp2dbg"
+        - .travis.d/build.sh "box2d"
+deploy:
+  provider: releases
+  api_key:
+    secure: Iq9pGKXRKBlW45VdSNPmHq/atWPebPmj5J6jo1aIrf/TE2mQSyp/b2qMO7Q1s0gEMi4AQRKUO5/iugWtEjK4puA/3uKtlwA6D4jlZr0VdD3i8jD8a0npLRT3ESGoSVul1N5hWov+2AfJYbIq7BgfrqpVPTTMaYx3vA9FyJkzBTieVXvblIe0qoViisjQNLQftSwDyLLgoEAZ8AIbX+WQI7jmpDumP/uIVJb7IVwMbXol2vIWXCtaivmy9F4/btYJLb5EeH6gXlpnYeGai8aRqwBnHLKMR0sGsQKAJfajOCxuqfFjtrUSypFlVNAUqsN0L16dsRN49/fI+SofHnpyKxcd/tH9MrRcoGS6hzzE5sP/dRPCONdRVRyeTi3YkJ6P8+iqoZzecOSlqAaeqfP3GO1NaZZSTt22BZzRJw3LM0HZ78e4MRvh+7+VCHX4rQnwFA2QrjfSDjV9+xErDjo/f+zgVvu5dbCknFG/taeAPy1poIQ7G3xN/emkV0HHyDchyup6Qtmlz21RpRDytRtN3ACsBGLqxYznc7o/9bMfS9swxB7jbfeOg1LQ2jym2JvKv8rai7H3F+SkNV6LOCrFq3XYr1AnEPFvbcRZDbdIj3NjilPAf45R1tYzGIxGSqbCgCwan8tFJ2jI78KevqV0CweD0wTtDmrSNFRPuCj3Eeo=
+  file_glob: true
+  file: deploy/*
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: DolceSDK/packages
