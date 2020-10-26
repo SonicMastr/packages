@@ -17,6 +17,52 @@ index 3fc3633..1e71372 100644
  ASFLAGS = $(CFLAGS)
  
  all: $(TARGET_LIB)
+diff --git a/libvita2d/source/vita2d.c b/libvita2d/source/vita2d.c
+index d64988e..de6fbb4 100755
+--- a/libvita2d/source/vita2d.c
++++ b/libvita2d/source/vita2d.c
+@@ -1,16 +1,30 @@
+ #include <psp2/appmgr.h>
+ #include <psp2/display.h>
+-#include <psp2/gxm.h>
++#include <psp2/gxm_internal.h>
+ #include <psp2/types.h>
+ #include <psp2/kernel/sysmem.h>
+ #include <psp2/message_dialog.h>
+ #include <psp2/sysmodule.h>
+-#include <psp2/sharedfb.h>
+ #include <string.h>
+ #include <stdlib.h>
+ #include "vita2d.h"
+ #include "utils.h"
+ 
++typedef struct SceSharedFbInfo {
++	void *fb_base;
++	int fb_size;
++	void *fb_base2;
++	int unk0[6];
++	int stride;
++	int width;
++	int height;
++	int unk1;
++	int index;
++	int unk2[4];
++	int vsync;
++	int unk3[3];
++} SceSharedFbInfo;
++
+ #ifdef DEBUG_BUILD
+ #  include <stdio.h>
+ #  define DEBUG(...) printf(__VA_ARGS__)
+@@ -243,7 +257,7 @@ static int vita2d_init_internal(unsigned int temp_pool_size, SceGxmMultisampleMo
+ 	initializeParams.displayQueueCallbackDataSize	= sizeof(vita2d_display_data);
+ 	initializeParams.parameterBufferSize		= system_app_mode ? 2 * 1024 * 1024 : SCE_GXM_DEFAULT_PARAMETER_BUFFER_SIZE;
+ 
+-	err = system_app_mode ? sceGxmVshInitialize(&initializeParams) : sceGxmInitialize(&initializeParams);
++	err = system_app_mode ? sceGxmInitializeInternal(&initializeParams) : sceGxmInitialize(&initializeParams);
+ 	DEBUG("sceGxmInitialize(): 0x%08X\n", err);
+ 	
+ 	// Since CDRAM memory is unaccessible in system app mode, we force USER_RW usage at init phase
 diff --git a/libvita2d/source/vita2d_image_bmp.c b/libvita2d/source/vita2d_image_bmp.c
 index 1a7f9be..b851aaa 100755
 --- a/libvita2d/source/vita2d_image_bmp.c
@@ -44,7 +90,7 @@ index 0f6c598..69edb92 100755
  #include <jpeglib.h>
  #include "vita2d.h"
 diff --git a/libvita2d/source/vita2d_image_png.c b/libvita2d/source/vita2d_image_png.c
-index 2af3d10..bd2e0cf 100755
+index ef550fd..197a3a8 100755
 --- a/libvita2d/source/vita2d_image_png.c
 +++ b/libvita2d/source/vita2d_image_png.c
 @@ -1,6 +1,6 @@

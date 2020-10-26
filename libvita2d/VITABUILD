@@ -1,9 +1,9 @@
 pkgname=libvita2d
-pkgver=03fdda9b83a20bead980e52255575a112e5f8308
+pkgver=01b9f00d7736ce3cd27c8a2641afdc9ddef071d2
 pkgrel=1
 url="https://github.com/xerpi/libvita2d"
-source=("https://github.com/xerpi/${pkgname}/archive/${pkgver}.zip" 'libvita2d.patch')
-sha256sums=('f4953478900afee99d78513a3a921e0d953726210c35d39751e6e2029c77b94c' 'SKIP')
+source=("https://github.com/xerpi/${pkgname}/archive/${pkgver}.tar.gz" 'libvita2d.patch')
+sha256sums=(04bb87819afaff18a0c4ab0cf9c9b5a9fa57a38ace56cdb90388ca1d3ef4107b SKIP)
 depends=('zlib' 'libpng' 'libjpeg-turbo' 'freetype')
 
 prepare() {
