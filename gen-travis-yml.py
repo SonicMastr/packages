@@ -131,7 +131,8 @@ for i in range(0, len(manifest), build_stage_size):
         create:
           name: {cur}
           paths: "$TRAVIS_BUILD_DIR"
-      script:''')
+      script:
+        - set -e''')
 	build_stage_items = manifest[i : i + build_stage_size]
 	for p in build_stage_items:
 		print(f'''\

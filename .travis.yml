@@ -48,6 +48,7 @@ jobs:
           name: build-stage-0
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "zlib"
         - .travis.d/build.sh "bzip2"
         - .travis.d/build.sh "libzip"
@@ -63,6 +64,7 @@ jobs:
           name: build-stage-1
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "freetype"
         - .travis.d/build.sh "harfbuzz"
         - .travis.d/build.sh "fftw"
@@ -78,6 +80,7 @@ jobs:
           name: build-stage-2
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "flac"
         - .travis.d/build.sh "libtremor"
         - .travis.d/build.sh "libmikmod"
@@ -93,6 +96,7 @@ jobs:
           name: build-stage-3
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "sdl2"
         - .travis.d/build.sh "openssl"
         - .travis.d/build.sh "curl"
@@ -108,6 +112,7 @@ jobs:
           name: build-stage-4
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "libxml2"
         - .travis.d/build.sh "speexdsp"
         - .travis.d/build.sh "pixman"
@@ -123,6 +128,7 @@ jobs:
           name: build-stage-5
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "libsndfile"
         - .travis.d/build.sh "xz"
         - .travis.d/build.sh "libarchive"
@@ -138,6 +144,7 @@ jobs:
           name: build-stage-6
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "imgui"
         - .travis.d/build.sh "libbaremetal"
         - .travis.d/build.sh "minizip"
@@ -153,6 +160,7 @@ jobs:
           name: build-stage-7
           paths: "$TRAVIS_BUILD_DIR"
       script:
+        - set -e
         - .travis.d/build.sh "libvitaSAS"
         - .travis.d/build.sh "libShellAudio"
         - .travis.d/build.sh "psp2dbg"
