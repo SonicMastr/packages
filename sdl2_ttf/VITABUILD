@@ -1,18 +1,17 @@
 pkgname=sdl2_ttf
-pkgver=9999
+pkgver=d0f667a1f555bf8d8b8c0f4dc95b1083537560df
 pkgrel=1
 url="https://github.com/rsn8887/SDL_ttf"
-source=("git://github.com/rsn8887/SDL_ttf.git")
-sha256sums=('SKIP')
+source=("https://github.com/rsn8887/SDL_ttf/archive/${pkgver}.tar.gz" dolcesdk.patch)
+sha256sums=(bc9443e412461798ee9c80167d42450252c80f9ce16ceba23d67b820ddf33507 SKIP)
 
 build() {
-  cd SDL_ttf
+  cd "SDL_ttf-${pkgver}"
+  patch --strip=1 --input="${srcdir}/dolcesdk.patch"
   make -j$(nproc) -f Makefile.vita
 }
 
 package () {
-  cd SDL_ttf
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make -f Makefile.vita VITASDK=$pkgdir/$VITASDK install 
+  cd "SDL_ttf-${pkgver}"
+  make -f Makefile.vita DESTDIR="${pkgdir}" install
 }

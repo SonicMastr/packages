@@ -98,13 +98,13 @@ jobs:
       script:
         - set -e
         - .travis.d/build.sh "sdl2"
+        - .travis.d/build.sh "sdl2_image"
+        - .travis.d/build.sh "sdl2_mixer"
+        - .travis.d/build.sh "sdl2_ttf"
         - .travis.d/build.sh "openssl"
         - .travis.d/build.sh "curl"
         - .travis.d/build.sh "curlpp"
         - .travis.d/build.sh "expat"
-        - .travis.d/build.sh "opus"
-        - .travis.d/build.sh "unrar"
-        - .travis.d/build.sh "glm"
     - stage: build-stage-4
       workspaces:
         use: build-stage-3
@@ -113,14 +113,14 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "opus"
+        - .travis.d/build.sh "unrar"
+        - .travis.d/build.sh "glm"
         - .travis.d/build.sh "libxml2"
         - .travis.d/build.sh "speexdsp"
         - .travis.d/build.sh "pixman"
         - .travis.d/build.sh "taipool"
         - .travis.d/build.sh "mpg123"
-        - .travis.d/build.sh "libmpeg2"
-        - .travis.d/build.sh "soloud"
-        - .travis.d/build.sh "quirc"
     - stage: build-stage-5
       workspaces:
         use: build-stage-4
@@ -129,14 +129,14 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "libmpeg2"
+        - .travis.d/build.sh "soloud"
+        - .travis.d/build.sh "quirc"
         - .travis.d/build.sh "libsndfile"
         - .travis.d/build.sh "xz"
         - .travis.d/build.sh "libarchive"
         - .travis.d/build.sh "libmodplug"
         - .travis.d/build.sh "libconfig"
-        - .travis.d/build.sh "libsodium"
-        - .travis.d/build.sh "libmathneon"
-        - .travis.d/build.sh "vitaGL"
     - stage: build-stage-6
       workspaces:
         use: build-stage-5
@@ -145,14 +145,14 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "libsodium"
+        - .travis.d/build.sh "libmathneon"
+        - .travis.d/build.sh "vitaGL"
         - .travis.d/build.sh "imgui"
         - .travis.d/build.sh "libbaremetal"
         - .travis.d/build.sh "minizip"
         - .travis.d/build.sh "jsoncpp"
         - .travis.d/build.sh "lame"
-        - .travis.d/build.sh "ffmpeg"
-        - .travis.d/build.sh "fnblit"
-        - .travis.d/build.sh "libtheora"
     - stage: build-stage-7
       workspaces:
         use: build-stage-6
@@ -161,6 +161,9 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "ffmpeg"
+        - .travis.d/build.sh "fnblit"
+        - .travis.d/build.sh "libtheora"
         - .travis.d/build.sh "libvitaSAS"
         - .travis.d/build.sh "libShellAudio"
         - .travis.d/build.sh "psp2dbg"

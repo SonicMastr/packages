@@ -1,21 +1,19 @@
 pkgname=sdl2_mixer
-pkgver=9999
+pkgver=8947c4922d89e0050b11b8c57d8072afa8451c7f
 pkgrel=1
 url="https://github.com/rsn8887/SDL_mixer"
-source=("git://github.com/rsn8887/SDL_mixer.git")
-sha256sums=('SKIP')
+source=("https://github.com/rsn8887/SDL_mixer/archive/${pkgver}.tar.gz" dolcesdk.patch)
+sha256sums=(825a40759ee3a25bca4a638172304a65a6125ea88fbba6a8a420efda4ebdab95 SKIP)
 depends=('sdl2' 'libvorbis' 'libmikmod' 'libmodplug' 'mpg123' 'flac')
 
 build() {
-  cd SDL_mixer
-  make -j$(nproc) -f Makefile.vita clean
+  cd "SDL_mixer-${pkgver}"
+  patch --strip=1 --input="${srcdir}/dolcesdk.patch"
   make -j$(nproc) -f Makefile.vita
 }
 
 package () {
-  cd SDL_mixer
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make -f Makefile.vita VITASDK=$pkgdir/$VITASDK install
+  cd "SDL_mixer-${pkgver}"
+  make -f Makefile.vita DESTDIR="${pkgdir}" install
 }
 
