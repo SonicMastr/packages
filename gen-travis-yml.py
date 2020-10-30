@@ -53,7 +53,7 @@ manifest=(
 	'onigmo',
 	'sdl',
 	# 'sdl_image',
-	# 'sdl_mixer',
+	'sdl_mixer',
 	# 'sdl_net',
 	# 'sdl_ttf',
 	# 'sdl_gfx',
