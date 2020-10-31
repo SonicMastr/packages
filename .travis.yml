@@ -82,13 +82,13 @@ jobs:
       script:
         - set -e
         - .travis.d/build.sh "flac"
+        - .travis.d/build.sh "mpg123"
         - .travis.d/build.sh "libtremor"
         - .travis.d/build.sh "libmikmod"
         - .travis.d/build.sh "libftpvita"
         - .travis.d/build.sh "henkaku"
         - .travis.d/build.sh "taihen"
         - .travis.d/build.sh "onigmo"
-        - .travis.d/build.sh "sdl"
     - stage: build-stage-3
       workspaces:
         use: build-stage-2
@@ -97,6 +97,7 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "sdl"
         - .travis.d/build.sh "sdl_mixer"
         - .travis.d/build.sh "sdl2"
         - .travis.d/build.sh "sdl2_image"
@@ -104,7 +105,6 @@ jobs:
         - .travis.d/build.sh "sdl2_ttf"
         - .travis.d/build.sh "openssl"
         - .travis.d/build.sh "curl"
-        - .travis.d/build.sh "curlpp"
     - stage: build-stage-4
       workspaces:
         use: build-stage-3
@@ -113,6 +113,7 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
+        - .travis.d/build.sh "curlpp"
         - .travis.d/build.sh "expat"
         - .travis.d/build.sh "opus"
         - .travis.d/build.sh "unrar"
@@ -120,7 +121,6 @@ jobs:
         - .travis.d/build.sh "libxml2"
         - .travis.d/build.sh "speexdsp"
         - .travis.d/build.sh "pixman"
-        - .travis.d/build.sh "taipool"
     - stage: build-stage-5
       workspaces:
         use: build-stage-4
@@ -129,7 +129,7 @@ jobs:
           paths: "$TRAVIS_BUILD_DIR"
       script:
         - set -e
-        - .travis.d/build.sh "mpg123"
+        - .travis.d/build.sh "taipool"
         - .travis.d/build.sh "libmpeg2"
         - .travis.d/build.sh "soloud"
         - .travis.d/build.sh "quirc"

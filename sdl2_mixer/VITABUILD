@@ -4,7 +4,7 @@ pkgrel=1
 url="https://github.com/rsn8887/SDL_mixer"
 source=("https://github.com/rsn8887/SDL_mixer/archive/${pkgver}.tar.gz" dolcesdk.patch)
 sha256sums=(825a40759ee3a25bca4a638172304a65a6125ea88fbba6a8a420efda4ebdab95 SKIP)
-depends=('sdl2' 'libvorbis' 'libmikmod' 'libmodplug' 'mpg123' 'flac')
+depends=(sdl2 libogg libvorbis libmikmod mpg123 flac)
 
 build() {
   cd "SDL_mixer-${pkgver}"
