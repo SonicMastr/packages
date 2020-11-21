@@ -1,27 +1,33 @@
 pkgname=soloud
-pkgver=9999
+pkgver=RELEASE_20200207
 pkgrel=1
 url="https://github.com/jarikomppa/soloud"
-source=("https://github.com/jarikomppa/soloud/archive/7b6cb7185d12b0d3283a9bf30e6cc3295e57a77c.zip" "https://github.com/bkaradzic/bx/raw/bf29ace5ee396dca5620efa26d18bd02cefd78d0/tools/bin/linux/genie" "soloud.patch")
-sha256sums=('SKIP' '80d8fbb733f0f392d9cc3b79e260a4382e94398d6a2ddf44954cc2b935160712' 'SKIP')
+source=(
+  "https://github.com/jarikomppa/soloud/archive/${pkgver}.tar.gz"
+  "https://github.com/bkaradzic/bx/raw/bf29ace5ee396dca5620efa26d18bd02cefd78d0/tools/bin/linux/genie"
+  "soloud.patch")
+sha256sums=(
+  922a10b287dcd12de5cfdfed2fac12b228517c4dd55eeb893c565048f30ae5f6
+  80d8fbb733f0f392d9cc3b79e260a4382e94398d6a2ddf44954cc2b935160712
+  SKIP)
 
 prepare() {
-  cd soloud-*
+  cd "soloud-${pkgver}"
   patch --strip=1 --input="${srcdir}/soloud.patch"
 }
 
 build() {
   chmod +x genie
-  cd soloud-*/build
+  cd "soloud-${pkgver}/build"
   ../../genie --with-vita-homebrew-only gmake
   cd gmake
   make -j$(nproc) config=release SoloudStatic
 }
 
 package () {
-  cd soloud-*
-  mkdir -p $pkgdir/$DOLCESDK/arm-dolce-eabi/{lib,include}
-  cp lib/libsoloud_static.a $pkgdir/$DOLCESDK/arm-dolce-eabi/lib/libsoloud.a
+  cd "soloud-${pkgver}"
+  mkdir -p "$pkgdir/$DOLCESDK/arm-dolce-eabi/"{lib,include}
+  cp lib/libsoloud_static.a "$pkgdir/$DOLCESDK/arm-dolce-eabi/lib/libsoloud.a"
 
   # fix soloud_speech header which references files from src/
   sed -i 's:../src/audiosource/speech/darray.h:soloud_darray.h:' include/soloud_speech.h
@@ -35,5 +41,5 @@ package () {
   cp src/audiosource/speech/tts.h $pkgdir/$DOLCESDK/arm-dolce-eabi/include/soloud_tts.h
   cp src/audiosource/speech/resonator.h $pkgdir/$DOLCESDK/arm-dolce-eabi/include/soloud_resonator.h
 
-  cp include/* $pkgdir/$DOLCESDK/arm-dolce-eabi/include
+  cp include/* "$pkgdir/$DOLCESDK/arm-dolce-eabi/include"
 }

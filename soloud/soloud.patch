@@ -1,5 +1,5 @@
 diff --git a/build/genie.lua b/build/genie.lua
-index ff3763c..2cdf1fb 100644
+index 827bc51..d6e4ced 100644
 --- a/build/genie.lua
 +++ b/build/genie.lua
 @@ -319,9 +319,9 @@ if _OPTIONS["with-vita-homebrew-only"] then
@@ -15,3 +15,65 @@ index ff3763c..2cdf1fb 100644
  end
  
  if _OPTIONS["with-jack"] then
+diff --git a/include/soloud_thread.h b/include/soloud_thread.h
+index 5664689..73d64b0 100644
+--- a/include/soloud_thread.h
++++ b/include/soloud_thread.h
+@@ -46,7 +46,6 @@ namespace SoLoud
+ 		void sleep(int aMSec);
+         void wait(ThreadHandle aThreadHandle);
+         void release(ThreadHandle aThreadHandle);
+-		int getTimeMillis();
+ 
+ #define MAX_THREADPOOL_TASKS 1024
+ 
+@@ -81,4 +80,4 @@ namespace SoLoud
+ 	}
+ }
+ 
+-#endif
+\ No newline at end of file
++#endif
+diff --git a/src/core/soloud_thread.cpp b/src/core/soloud_thread.cpp
+index d3dbe4f..4bfed3b 100644
+--- a/src/core/soloud_thread.cpp
++++ b/src/core/soloud_thread.cpp
+@@ -121,11 +121,6 @@ namespace SoLoud
+             delete aThreadHandle;
+         }
+ 
+-		int getTimeMillis()
+-		{
+-			return GetTickCount();
+-		}
+-
+ #else // pthreads
+         struct ThreadHandleData
+         {
+@@ -201,11 +196,7 @@ namespace SoLoud
+ 
+ 		void sleep(int aMSec)
+ 		{
+-			//usleep(aMSec * 1000);
+-			struct timespec req = {0};
+-			req.tv_sec = 0;
+-			req.tv_nsec = aMSec * 1000000L;
+-			nanosleep(&req, (struct timespec *)NULL);
++			usleep(aMSec * 1000);
+ 		}
+ 
+         void wait(ThreadHandle aThreadHandle)
+@@ -217,13 +208,6 @@ namespace SoLoud
+         {
+             delete aThreadHandle;
+         }
+-
+-		int getTimeMillis()
+-		{
+-			struct timespec spec;
+-			clock_gettime(CLOCK_REALTIME, &spec);
+-			return spec.tv_sec * 1000 + (int)(spec.tv_nsec / 1.0e6);
+-		}
+ #endif
+ 
+ 		static void poolWorker(void *aParam)
