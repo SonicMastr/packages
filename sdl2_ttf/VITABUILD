@@ -1,17 +1,19 @@
 pkgname=sdl2_ttf
-pkgver=d0f667a1f555bf8d8b8c0f4dc95b1083537560df
+pkgver=2.0.15
 pkgrel=1
-url="https://github.com/rsn8887/SDL_ttf"
-source=("https://github.com/rsn8887/SDL_ttf/archive/${pkgver}.tar.gz" dolcesdk.patch)
-sha256sums=(bc9443e412461798ee9c80167d42450252c80f9ce16ceba23d67b820ddf33507 SKIP)
+url='https://www.libsdl.org/projects/SDL_ttf'
+source=("https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-${pkgver}.tar.gz" CMakeLists.txt)
+sha256sums=(a9eceb1ad88c1f1545cd7bd28e7cbc0b2c14191d40238f531a15b01b1b22cd33 SKIP)
 
 build() {
-  cd "SDL_ttf-${pkgver}"
-  patch --strip=1 --input="${srcdir}/dolcesdk.patch"
-  make -j$(nproc) -f Makefile.vita
+  cp "${srcdir}/CMakeLists.txt" "SDL2_ttf-${pkgver}"
+  mkdir build
+  cd build
+  cmake "../SDL2_ttf-${pkgver}"
+  make -j$(nproc)
 }
 
 package () {
-  cd "SDL_ttf-${pkgver}"
-  make -f Makefile.vita DESTDIR="${pkgdir}" install
+  cd build
+  make DESTDIR="${pkgdir}" install
 }
