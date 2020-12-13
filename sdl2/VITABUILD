@@ -1,22 +1,27 @@
 pkgname=sdl2
-pkgver=master
+pkgver=2.0.12
 pkgrel=1
-url="https://github.com/rsn8887/SDL-Vita"
-source=("https://github.com/rsn8887/SDL-Vita/archive/${pkgver}.tar.gz" "sdl2.patch")
-sha256sums=('f0eccc159abd01e992b42b3defc11f1f4251a95491ce79ce181b1c9f599a6733' 'SKIP')
+url='https://www.libsdl.org'
+source=(
+  "https://www.libsdl.org/release/SDL2-${pkgver}.tar.gz"
+  "https://github.com/isage/sdl2-vita/raw/master/SDL2-${pkgver}-vita-4.patch"
+ )
+sha256sums=(
+  349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863
+  SKIP
+)
 
 prepare() {
-  cd "SDL-Vita-${pkgver}"
-  patch --strip=1 --input="${srcdir}/sdl2.patch"
+  cd "SDL2-${pkgver}"
+  patch --strip=1 --input="${srcdir}/SDL2-${pkgver}-vita-4.patch"
 }
 
-
 build() {
-  cd "SDL-Vita-${pkgver}"
-  make -j$(nproc) -f Makefile.vita
+  cd "SDL2-${pkgver}"
+  make -j$(nproc) -f Makefile.vita.dolce
 }
 
 package () {
-  cd "SDL-Vita-${pkgver}"
-  make -f Makefile.vita DESTDIR="${pkgdir}" install
+  cd "SDL2-${pkgver}"
+  make -f Makefile.vita.dolce DESTDIR="${pkgdir}" install
 }
