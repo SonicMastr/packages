@@ -1,21 +1,21 @@
 pkgname=libftpvita
-pkgver=9999
+pkgver=77a1d39c1d6f11a55fe65a6ed9fe707bff5ede4b
 pkgrel=1
 url="https://github.com/xerpi/libftpvita"
-source=("git://github.com/xerpi/libftpvita.git" "libftpvita.patch")
-sha256sums=('SKIP' 'SKIP')
+source=("https://github.com/xerpi/libftpvita/archive/${pkgver}.tar.gz" "libftpvita.patch")
+sha256sums=(7877c5e5d3f664d7d37224e0fcdb8d3bb53197a92bccf302a462a5f843c7d1ec SKIP)
 
 prepare() {
-  cd $pkgname
+  cd "${pkgname}-${pkgver}"
   patch --strip=1 --input="${srcdir}/libftpvita.patch"
 }
 
 build() {
-  cd $pkgname/$pkgname
+  cd "${pkgname}-${pkgver}/libftpvita"
   make -j$(nproc)
 }
 
 package () {
-  cd $pkgname/$pkgname
-  make DESTDIR=$pkgdir install
+  cd "${pkgname}-${pkgver}/libftpvita"
+  make DESTDIR="${pkgdir}" install
 }

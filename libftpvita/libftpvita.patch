@@ -1,4 +1,5 @@
 diff --git a/libftpvita/Makefile b/libftpvita/Makefile
+index 39160f1..09b0113 100644
 --- a/libftpvita/Makefile
 +++ b/libftpvita/Makefile
 @@ -1,9 +1,9 @@
@@ -15,19 +16,23 @@ diff --git a/libftpvita/Makefile b/libftpvita/Makefile
  ASFLAGS = $(CFLAGS)
  
 diff --git a/libftpvita/ftpvita.c b/libftpvita/ftpvita.c
+index 7c0d1eb..7d2c293 100644
 --- a/libftpvita/ftpvita.c
 +++ b/libftpvita/ftpvita.c
-@@ -12,8 +12,7 @@
+@@ -12,11 +12,7 @@
  
  #include <psp2/kernel/threadmgr.h>
  
 -#include <psp2/io/fcntl.h>
 -#include <psp2/io/dirent.h>
+-
+-#include <psp2/net/net.h>
+-#include <psp2/net/netctl.h>
 +#include <psp2/kernel/iofilemgr.h>
  
- #include <psp2/net/net.h>
- #include <psp2/net/netctl.h>
-@@ -371,7 +370,7 @@ static void send_LIST(ftpvita_client_info_t *client, const char *path)
+ #include <psp2/rtc.h>
+ 
+@@ -371,7 +367,7 @@ static void send_LIST(ftpvita_client_info_t *client, const char *path)
  		memset(&dirent, 0, sizeof(dirent));
  
  		while (sceIoDread(dir, &dirent) > 0) {
@@ -36,3 +41,27 @@ diff --git a/libftpvita/ftpvita.c b/libftpvita/ftpvita.c
  				&dirent.d_stat, dirent.d_name);
  			client_send_data_msg(client, buffer);
  			memset(&dirent, 0, sizeof(dirent));
+@@ -1108,7 +1104,7 @@ int ftpvita_init(char *vita_ip, unsigned short int *vita_port)
+ 		goto error_netctlinit;
+ 
+ 	/* Get IP address */
+-	ret = sceNetCtlInetGetInfo(SCE_NETCTL_INFO_GET_IP_ADDRESS, &info);
++	ret = sceNetCtlInetGetInfo(SCE_NET_CTL_INFO_IP_ADDRESS, &info);
+ 	DEBUG("sceNetCtlInetGetInfo(): 0x%08X\n", ret);
+ 	if (ret < 0)
+ 		goto error_netctlgetinfo;
+diff --git a/libftpvita/ftpvita.h b/libftpvita/ftpvita.h
+index 0b5449f..530bb62 100644
+--- a/libftpvita/ftpvita.h
++++ b/libftpvita/ftpvita.h
+@@ -7,8 +7,8 @@
+ 
+ #include <psp2/types.h>
+ #include <sys/syslimits.h>
+-#include <psp2/net/net.h>
+-#include <psp2/net/netctl.h>
++#include <psp2/net.h>
++#include <psp2/libnetctl.h>
+ 
+ typedef void (*ftpvita_log_cb_t)(const char *);
+ 
