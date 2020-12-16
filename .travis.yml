@@ -179,6 +179,7 @@ jobs:
       script:
         - set -e
         - .travis.d/build.sh "libpib"
+        - .travis.d/build.sh "glfw"
       deploy:
         provider: releases
         api_key:

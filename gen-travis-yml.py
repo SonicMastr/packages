@@ -99,6 +99,7 @@ manifest=(
 	'psp2dbg',
 	'box2d',
 	'libpib',
+	'glfw',
 )
 
 print('''\
