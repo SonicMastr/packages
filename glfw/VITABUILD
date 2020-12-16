@@ -1,0 +1,19 @@
+pkgname=glfw-vita
+pkgver=vita1.0
+pkgrel=1
+url="https://github.com/SonicMastr/${pkgname}"
+source=("https://github.com/SonicMastr/${pkgname}/archive/${pkgver}.tar.gz")
+sha256sums=(3d11f05e301cdee0818a141e606077c8dab5e226e623149a863b240ce55089ff)
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_TOOLCHAIN_FILE:FILEPATH=$DOLCESDK/share/dolce.toolchain.cmake -Bbuild -G "Unix Makefiles"
+  cd build
+  make -j$(nproc)
+}
+
+package () {
+  cd "${pkgname}-${pkgver}"
+  cd build
+  make DESTDIR="${pkgdir}" install
+}
