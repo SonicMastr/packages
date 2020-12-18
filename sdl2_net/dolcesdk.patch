@@ -1,0 +1,56 @@
+diff --git a/Makefile.vita b/Makefile.vita
+index 560f13f..3af00a1 100644
+--- a/Makefile.vita
++++ b/Makefile.vita
+@@ -5,10 +5,10 @@ COMMON_OBJS = SDLnet.o \
+ 	SDLnetUDP.o \
+ 	SDLnetvita.o
+ 
+-PREFIX  = arm-vita-eabi
++PREFIX  = arm-dolce-eabi
+ CC      = $(PREFIX)-gcc
+ AR      = $(PREFIX)-ar
+-CFLAGS  = -Wl,-q -Wall -O3 -Iinclude -I$(VITASDK)/arm-vita-eabi/include/SDL2
++CFLAGS  = -Wl,-q -Wall -O3 -Iinclude -I"$(DOLCESDK)/arm-dolce-eabi/include/SDL2"
+ ASFLAGS = $(CFLAGS)
+ 
+ LIBS    += -lSDL2
+@@ -20,7 +20,8 @@ clean:
+ 	@rm -rf $(TARGET_LIB) $(COMMON_OBJS)
+ 
+ install: $(TARGET_LIB)
+-	@cp  $(TARGET_LIB) $(VITASDK)/arm-vita-eabi/lib
+-	@mkdir -p "$(VITASDK)/arm-vita-eabi/include/SDL2"
+-	@cp SDL_net.h "$(VITASDK)/arm-vita-eabi/include/SDL2"
++	@mkdir -p "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib"
++	@cp  $(TARGET_LIB) "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/lib"
++	@mkdir -p "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/SDL2"
++	@cp SDL_net.h "$(DESTDIR)$(DOLCESDK)/arm-dolce-eabi/include/SDL2"
+ 	@echo "Installed!"
+diff --git a/SDLnetvita.c b/SDLnetvita.c
+index d168d56..efd99be 100644
+--- a/SDLnetvita.c
++++ b/SDLnetvita.c
+@@ -30,8 +30,8 @@
+ #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <netdb.h>
+-
+-#include <vitasdk.h>
++#include <psp2/sysmodule.h>
++#include <psp2/libnetctl.h>
+ 
+ #define NET_INIT_SIZE (1 * 1024 * 1024)
+ #ifndef SCE_NET_CTL_ERROR_NOT_TERMINATED
+diff --git a/SDLnetvita.h b/SDLnetvita.h
+index 20e3917..291cd77 100644
+--- a/SDLnetvita.h
++++ b/SDLnetvita.h
+@@ -24,7 +24,6 @@
+ #pragma once
+ 
+ #include <sys/select.h>
+-#include <vitasdk.h>
+ 
+ // These are all defined in SDLnetvita.c
+ 

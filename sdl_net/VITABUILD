@@ -1,20 +1,27 @@
 pkgname=sdl_net
-pkgver=9999
+pkgver=8666eaff1b42438144e8d2b97cc053065d5cc8f4
 pkgrel=1
 url="https://github.com/rsn8887/SDL_net"
-source=("git://github.com/rsn8887/SDL_net.git#branch=SDL-1.2")
-sha256sums=('SKIP')
+source=(
+  "https://github.com/rsn8887/SDL_net/archive/${pkgver}.tar.gz"
+  dolcesdk.patch
+)
+sha256sums=(
+  ac0eeb68454d576a85d7e10810cafdca22cf75ba8dd4b8345ca9c77916cbe0c2
+  SKIP
+)
+
+prepare() {
+  cd "SDL_net-${pkgver}"
+  patch --strip=1 --input="${srcdir}/dolcesdk.patch"
+}
 
 build() {
-  cd SDL_net
-  make -j$(nproc) -f Makefile.vita clean
+  cd "SDL_net-${pkgver}"
   make -j$(nproc) -f Makefile.vita
 }
 
 package () {
-  cd SDL_net
-  # hack: this install target ignores DESTDIR and uses VITASDK instead
-  mkdir -p $pkgdir/$VITASDK/arm-vita-eabi/{lib,include}
-  make -f Makefile.vita VITASDK=$pkgdir/$VITASDK install
+  cd "SDL_net-${pkgver}"
+  make -f Makefile.vita DESTDIR="${pkgdir}" install
 }
-
