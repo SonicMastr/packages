@@ -1,16 +1,27 @@
 pkgname=libvitaSAS
-pkgver=master
+pkgver=1.20
 pkgrel=1
 url='https://github.com/GrapheneCt/libvitaSAS'
-source=('https://github.com/GrapheneCt/libvitaSAS/archive/master.zip')
-sha256sums=('SKIP')
+source=("https://github.com/GrapheneCt/libvitaSAS/archive/v${pkgver}.tar.gz" dolcesdk.patch)
+sha256sums=(8ce1cb28e97d53ad6ad271337bc845af4418070ec6b795265d397f97fb31a65d SKIP)
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  patch --strip=1 --input="${srcdir}/dolcesdk.patch"
+}
 
 build() {
   cd "${pkgname}-${pkgver}"
+  make -j$(nproc)
+  mkdir build
+  cd build
+  cmake ..
   make -j$(nproc)
 }
 
 package () {
   cd "${pkgname}-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+  cd build
   make DESTDIR="${pkgdir}" install
 }
