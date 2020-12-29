@@ -1,0 +1,135 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f7c0781..d3a426d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -10,8 +10,22 @@ endif()
+ 
+ include("$ENV{DOLCESDK}/share/dolce.cmake" REQUIRED)
+ 
++option(CMAKE_TLS_VERIFY "Verify TLS" ON)
++include(ExternalProject REQUIRED)
++
+ project(vita2d_sys)
+ 
++include_directories(include ${CMAKE_BINARY_DIR}/dep/include)
++link_directories(${CMAKE_BINARY_DIR}/dep/lib)
++
++set(LIBPNG_FLAGS "-DPNG_NO_CONVERT_tIME=1 -DPNG_NO_SETJMP=1 -DPNG_NO_SIMPLIFIED_READ=1 -DPNG_NO_SIMPLIFIED_WRITE=1 -DPNG_NO_SIMPLIFIED_WRITE_STDIO=1 -DPNG_NO_STDIO=1")
++
++ExternalProject_Add(libpng
++  URL https://download.sourceforge.net/libpng/libpng-1.6.37.tar.xz
++  URL_HASH SHA256=505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca
++  CONFIGURE_COMMAND ${CMAKE_COMMAND} -E env CPPFLAGS=${LIBPNG_FLAGS} <SOURCE_DIR>/configure --host=arm-dolce-eabi --prefix=${CMAKE_BINARY_DIR}/dep --disable-shared --enable-static --enable-arm-neon
++)
++
+ add_executable(${PROJECT_NAME}
+   source/vita2d.c
+   source/heap.c
+@@ -30,7 +44,8 @@ add_executable(${PROJECT_NAME}
+   source/vita2d_pvf.c
+ )
+ 
+-link_directories(${CMAKE_CURRENT_BINARY_DIR})
++add_dependencies(${PROJECT_NAME} libpng)
++
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3 -nostdlib -fno-builtin -DVITA2D_SYS_PRX")
+ 
+ set_target_properties(${PROJECT_NAME}
+@@ -38,12 +53,8 @@ set_target_properties(${PROJECT_NAME}
+   -nostartfiles
+ )
+ 
+-include_directories(
+-  include
+-)
+-
+ target_link_libraries(${PROJECT_NAME}
+-  png16v2ds
++  png
+   z
+   SceSysmem_stub_weak
+   SceDisplay_stub_weak
+@@ -51,18 +62,18 @@ target_link_libraries(${PROJECT_NAME}
+   SceSysmodule_stub_weak
+   SceIofilemgr_stub_weak
+   SceLibKernel_stub_weak
+-  SceKernelThreadMgr_stub_weak
+-  SceKernelModulemgr_stub_weak
++  SceThreadmgr_stub_weak
++  SceModulemgr_stub_weak
+   SceAppMgr_stub_weak
+   SceShellSvc_stub_weak
+   SceGxm_stub_weak
+   SceGxmInternalForVsh_stub_weak
+   SceCommonDialog_stub_weak
+   SceDbg_stub_weak
+-  SceProcessMgr_stub_weak
+-  SceKernelDmacMgr_stub
++  SceProcessmgr_stub_weak
++  SceDmacmgr_stub
+   SceFios2_stub_weak
+-  SceJpeg_stub_weak
++  SceJpegUser_stub_weak
+   SceJpegArm_stub_weak
+   ScePgf_stub_weak
+   ScePvf_stub_weak
+@@ -80,6 +91,9 @@ dolce_create_self(${PROJECT_NAME}.suprx ${PROJECT_NAME}
+ dolce_create_stubs(${PROJECT_NAME}_stubs 
+   ${PROJECT_NAME} 
+   ${CMAKE_SOURCE_DIR}/exports.yml
+-  LIB vita2d_sys_stub
++  LIB vita2d_sys_stub vita2d_sys_stub_weak
+ )
+ 
++install(FILES ${CMAKE_SOURCE_DIR}/include/vita2d_sys.h DESTINATION include)
++install(FILES $<TARGET_FILE:vita2d_sys_stub> $<TARGET_FILE:vita2d_sys_stub_weak> DESTINATION lib)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.suprx DESTINATION module)
+diff --git a/Makefile b/Makefile
+index 000371a..3ee8fc4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -9,7 +9,7 @@ INCLUDES   = include
+ PREFIX  ?= ${DOLCESDK}/arm-dolce-eabi
+ CC      = arm-dolce-eabi-gcc
+ AR      = arm-dolce-eabi-ar
+-CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES) -ffat-lto-objects -flto
++CFLAGS  = -Wl,-q -Wall -O3 -I$(INCLUDES)
+ ASFLAGS = $(CFLAGS)
+ 
+ all: $(TARGET_LIB)
+diff --git a/include/vita2d_sys.h b/include/vita2d_sys.h
+index 40a49a1..6a1009b 100644
+--- a/include/vita2d_sys.h
++++ b/include/vita2d_sys.h
+@@ -6,6 +6,7 @@
+ #include <psp2/kernel/sysmem.h>
+ #include <psp2/pgf.h>
+ #include <psp2/pvf.h>
++#include <psp2/scebase_common.h>
+ 
+ #ifdef __cplusplus
+ extern "C" {
+@@ -19,10 +20,8 @@ extern "C" {
+ 
+ //#define VITA2D_SYS_PRX
+ 
+-#if _SCE_TARGET_OS_PSP2
+-#ifdef VITA2D_SYS_PRX
++#if _SCE_HOST_COMPILER_SNC && defined(VITA2D_SYS_PRX)
+ #define PRX_INTERFACE __declspec (dllexport)
+-#endif
+ #else
+ #define PRX_INTERFACE
+ #endif
+diff --git a/source/vita2d.c b/source/vita2d.c
+index 4fa77f4..921314e 100644
+--- a/source/vita2d.c
++++ b/source/vita2d.c
+@@ -11,7 +11,6 @@
+ #include <psp2/message_dialog.h>
+ #include <psp2/sysmodule.h>
+ #include <psp2/appmgr.h>
+-#include <psp2/scebase.h>
+ #include <psp2/libdbg.h>
+ #include "vita2d_sys.h"
+ 
