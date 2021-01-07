@@ -1,9 +1,9 @@
 pkgname=libvita2d_sys
-pkgver=1.41
+pkgver=1.42
 pkgrel=1
 url="https://github.com/GrapheneCt/libvita2d_sys"
 source=("https://github.com/GrapheneCt/${pkgname}/archive/v${pkgver}.tar.gz" dolcesdk.patch)
-sha256sums=(97558bbe5ab8518d77da2bc9c8c36e8c9ebe22ae05bf3048834ef9abb3ab26f7 SKIP)
+sha256sums=(6404af5a6bd80bb2e4f3f5552f058b8f3692d6d434a6df729d13d712bd768cfc SKIP)
 
 prepare() {
   cd "${pkgname}-${pkgver}"

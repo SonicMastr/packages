@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f7c0781..d3a426d 100644
+index 83999c3..edb74a4 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -10,8 +10,22 @@ endif()
@@ -49,31 +49,7 @@ index f7c0781..d3a426d 100644
    z
    SceSysmem_stub_weak
    SceDisplay_stub_weak
-@@ -51,18 +62,18 @@ target_link_libraries(${PROJECT_NAME}
-   SceSysmodule_stub_weak
-   SceIofilemgr_stub_weak
-   SceLibKernel_stub_weak
--  SceKernelThreadMgr_stub_weak
--  SceKernelModulemgr_stub_weak
-+  SceThreadmgr_stub_weak
-+  SceModulemgr_stub_weak
-   SceAppMgr_stub_weak
-   SceShellSvc_stub_weak
-   SceGxm_stub_weak
-   SceGxmInternalForVsh_stub_weak
-   SceCommonDialog_stub_weak
-   SceDbg_stub_weak
--  SceProcessMgr_stub_weak
--  SceKernelDmacMgr_stub
-+  SceProcessmgr_stub_weak
-+  SceDmacmgr_stub
-   SceFios2_stub_weak
--  SceJpeg_stub_weak
-+  SceJpegUser_stub_weak
-   SceJpegArm_stub_weak
-   ScePgf_stub_weak
-   ScePvf_stub_weak
-@@ -80,6 +91,9 @@ dolce_create_self(${PROJECT_NAME}.suprx ${PROJECT_NAME}
+@@ -81,6 +92,9 @@ dolce_create_self(${PROJECT_NAME}.suprx ${PROJECT_NAME}
  dolce_create_stubs(${PROJECT_NAME}_stubs 
    ${PROJECT_NAME} 
    ${CMAKE_SOURCE_DIR}/exports.yml
@@ -83,7 +59,7 @@ index f7c0781..d3a426d 100644
  
 +install(FILES ${CMAKE_SOURCE_DIR}/include/vita2d_sys.h DESTINATION include)
 +install(FILES $<TARGET_FILE:vita2d_sys_stub> $<TARGET_FILE:vita2d_sys_stub_weak> DESTINATION lib)
-+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.suprx DESTINATION module)
++install(FILES $<TARGET_FILE:${PROJECT_NAME}.suprx_> DESTINATION module)
 diff --git a/Makefile b/Makefile
 index 000371a..3ee8fc4 100644
 --- a/Makefile
@@ -97,39 +73,3 @@ index 000371a..3ee8fc4 100644
  ASFLAGS = $(CFLAGS)
  
  all: $(TARGET_LIB)
-diff --git a/include/vita2d_sys.h b/include/vita2d_sys.h
-index 40a49a1..6a1009b 100644
---- a/include/vita2d_sys.h
-+++ b/include/vita2d_sys.h
-@@ -6,6 +6,7 @@
- #include <psp2/kernel/sysmem.h>
- #include <psp2/pgf.h>
- #include <psp2/pvf.h>
-+#include <psp2/scebase_common.h>
- 
- #ifdef __cplusplus
- extern "C" {
-@@ -19,10 +20,8 @@ extern "C" {
- 
- //#define VITA2D_SYS_PRX
- 
--#if _SCE_TARGET_OS_PSP2
--#ifdef VITA2D_SYS_PRX
-+#if _SCE_HOST_COMPILER_SNC && defined(VITA2D_SYS_PRX)
- #define PRX_INTERFACE __declspec (dllexport)
--#endif
- #else
- #define PRX_INTERFACE
- #endif
-diff --git a/source/vita2d.c b/source/vita2d.c
-index 4fa77f4..921314e 100644
---- a/source/vita2d.c
-+++ b/source/vita2d.c
-@@ -11,7 +11,6 @@
- #include <psp2/message_dialog.h>
- #include <psp2/sysmodule.h>
- #include <psp2/appmgr.h>
--#include <psp2/scebase.h>
- #include <psp2/libdbg.h>
- #include "vita2d_sys.h"
- 
