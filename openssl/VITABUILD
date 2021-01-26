@@ -1,14 +1,9 @@
 pkgname=openssl
 pkgver=1.0.2s
 pkgrel=1
-url="https://github.com/d3m3vilurr/vita-openssl"
-source=("https://github.com/d3m3vilurr/vita-openssl/archive/vita-1_0_2s.tar.gz" "openssl.patch")
-sha256sums=('cf619bc60c79e85fc48896a8d166afc741ece05e993fd4607f80dbe917384e94' 'SKIP')
-
-prepare() {
-  cd "vita-openssl-vita-1_0_2s"
-  patch --strip=1 --input="${srcdir}/openssl.patch"
-}
+url="https://github.com/SonicMastr/vita-openssl"
+source=("https://github.com/SonicMastr/vita-openssl/archive/vita-1_0_2s.tar.gz")
+sha256sums=('9ebda76b7fb65d95d04a599de9b2fab4451fa1f94206ebecac171ba47fbe8ceb')
 
 build() {
   cd "vita-openssl-vita-1_0_2s"
